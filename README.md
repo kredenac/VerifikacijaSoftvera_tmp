@@ -1,0 +1,1 @@
+# VerifikacijaSoftvera_tmp
