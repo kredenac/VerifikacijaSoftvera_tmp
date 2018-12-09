@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+gcc example.c -fprofile-arcs -ftest-coverage
+./a.out
+gcov example.c
