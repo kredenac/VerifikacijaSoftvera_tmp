@@ -1,7 +1,10 @@
 #ifndef NADEZDA_SPADIJER_H
 #define NADEZDA_SPADIJER_H
+
+#define _XOPEN_SOURCE 700
 #include <iostream>
 #include <vector>
+#include <ftw.h>
 
 using namespace std;
 
@@ -14,8 +17,8 @@ using namespace std;
 class TestCase {
 
 public:
-    TestCase(string funName, string filName, unsigned beginL, unsigned endL)
-        :functionName(funName), fileName(filName), beginLine(beginL), endLine(endL)
+    TestCase(string funName, string filName, unsigned slotL, unsigned beginL, unsigned endL)
+        :functionName(funName), fileName(filName), slotLine(slotL), beginLine(beginL), endLine(endL)
     {
 
     }
@@ -23,6 +26,7 @@ public:
 public:
     string functionName;
     string fileName;
+    unsigned slotLine;
     unsigned beginLine;
     unsigned endLine;
 
@@ -32,11 +36,13 @@ public:
 // TODO by Nadezda and Spadijer
 class nadezda_spadijer
 {
+    static vector<TestCase> testovi;
+    static int function(const char *fpath, const struct stat *sb, int typeFlag, struct FTW *ftwbuf);
 public:
     nadezda_spadijer();
 
     // returns all test cases
-    vector<TestCase> getTestCases();
+    vector<TestCase> getTestCases() const;
 };
 
 #endif // NADEZDA_SPADIJER_H
