@@ -11,10 +11,15 @@ nadezda_spadijer::nadezda_spadijer()
 
 }
 
-int nadezda_spadijer::function(const char *fpath, const struct stat *, int, struct FTW *)
+int nadezda_spadijer::function(const char *fpath, const struct stat *, int tflag, struct FTW *)
 {
+    if (tflag != FTW_F)
+        return 0;
     string path = fpath;
-    if (path.find(".h") == string::npos && path.find(".cpp") == string::npos)
+    auto tacka = path.find_last_of('.');
+    if (tacka == string::npos)
+        return 0;
+    if (path.substr(tacka) != ".cpp") // && path.substr(tacka) != ".h"
         return 0;
     ifstream f(fpath);
     if (!f.is_open())
@@ -22,12 +27,15 @@ int nadezda_spadijer::function(const char *fpath, const struct stat *, int, stru
     vector< pair<string, unsigned> > testFunctionNames;
     char line[MAX_LINE];
     unsigned lineNum = 0U;
+    bool x = false;
     while (!f.eof())
     {
         f.getline(line, MAX_LINE);
         string LINE = line;
         ++lineNum;
-        if (LINE.find("private slots:") != string::npos)
+        if (LINE.find("#include <QtTest>") != string::npos)
+            x = true;
+        if (LINE.find("private slots:") != string::npos && x)
         {
             while (!f.eof())
             {
@@ -81,6 +89,5 @@ vector<TestCase> nadezda_spadijer::getTestCases() const
 {
     testovi.clear();
     nftw(".", function, 3, 0);
-    //TODO: srediti da preskace direktorijume kao fajlove
     return testovi;
 }
