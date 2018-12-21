@@ -11,28 +11,14 @@ class TestCase {
 
 public:
     TestCase(string funName, string filName, unsigned slotL, unsigned beginL, unsigned endL)
-        : isCommented(false), functionName(funName), fileName(filName), slotLine(slotL), beginLine(beginL), endLine(endL)
+        : isRedundant(false), functionName(funName), fileName(filName), slotLine(slotL), beginLine(beginL), endLine(endL)
     {
 
     }
 
-    void Comment()
-    {
-        isCommented = true;
-        // TODO call rale script
-        system("myfile.sh"); // myfile.sh should be chmod +x
-    }
-
-    void unComment()
-    {
-        isCommented = false;
-        // TODO call rale script
-        system("myfile.sh"); // myfile.sh should be chmod +x
-    }
-
-
-public:
-    bool isCommented;
+    void Comment();
+    void unComment();
+    bool isRedundant;
     string functionName;
     string fileName;
     unsigned slotLine;

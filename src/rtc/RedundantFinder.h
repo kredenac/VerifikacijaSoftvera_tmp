@@ -17,14 +17,12 @@ public:
         return false;
     }
 
-    vector<TestCase> getRedundant(){
-        return vector<TestCase>();
-    }
+    vector<TestCase> getRedundant();
+
 private:
     double getGcovLineCoverage();
     void checkTests();
-    bool checkIsRedundant(const TestCase &t);
-    vector<bool> isRedundant;
+    void checkIsRedundant(TestCase &t, double baseline);
     vector<TestCase> tests;
 };
 
