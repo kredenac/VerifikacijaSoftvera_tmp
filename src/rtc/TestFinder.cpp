@@ -1,17 +1,19 @@
-#include "nadezda_spadijer.h"
+#include "TestFinder.h"
 #include <fstream>
 #include <utility>
 
 const unsigned MAX_LINE = 512U;
 
-vector<TestCase> nadezda_spadijer::testovi;
+const string TestFinder::path = "../what_we_test";
 
-nadezda_spadijer::nadezda_spadijer()
+vector<TestCase> TestFinder::testovi;
+
+TestFinder::TestFinder()
 {
 
 }
 
-int nadezda_spadijer::function(const char *fpath, const struct stat *, int tflag, struct FTW *)
+int TestFinder::nftwCallback(const char *fpath, const struct stat *, int tflag, struct FTW *)
 {
     if (tflag != FTW_F)
         return 0;
@@ -85,9 +87,9 @@ int nadezda_spadijer::function(const char *fpath, const struct stat *, int tflag
     return 0;
 }
 
-vector<TestCase> nadezda_spadijer::getTestCases() const
+vector<TestCase> TestFinder::getTestCases() const
 {
     testovi.clear();
-    nftw(".", function, 3, 0);
+    nftw(path.c_str(), nftwCallback, 3, 0);
     return testovi;
 }

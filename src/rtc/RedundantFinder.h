@@ -1,16 +1,16 @@
-#ifndef NIKOLA_RASTKO_H
-#define NIKOLA_RASTKO_H
+#ifndef REDUNDANT_FINDER_H
+#define REDUNDANT_FINDER_H
+#include "TestFinder.h"
 #include <iostream>
-#include "nadezda_spadijer.h"
 
 // TODO by Nikola and Rastko
 // take in test cases and generate
 // gcov stats to decide if some
 // test should be removed
-class nikola_rastko
+class RedundantFinder
 {
 public:
-    nikola_rastko(vector<TestCase> & tests);
+    RedundantFinder(vector<TestCase> & tests);
 
     bool hasRedundant()
     {
@@ -21,7 +21,11 @@ public:
         return vector<TestCase>();
     }
 private:
+    double getGcovLineCoverage();
+    void checkTests();
+    bool checkIsRedundant(const TestCase &t);
+    vector<bool> isRedundant;
     vector<TestCase> tests;
 };
 
-#endif // NIKOLA_RASTKO_H
+#endif // REDUNDANT_FINDER_H
