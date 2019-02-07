@@ -4,11 +4,9 @@
 
 const unsigned MAX_LINE = 512U;
 
-const string TestFinder::path = "../what_we_test/Root/string_distance_test";
-
 vector<TestCase> TestFinder::testovi;
 
-TestFinder::TestFinder()
+TestFinder::TestFinder(string &path) : path(path)
 {
 
 }

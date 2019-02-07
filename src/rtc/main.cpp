@@ -23,8 +23,10 @@ string GetCurrentWorkingDir( void ) {
 
 int main()
 {
+    chdir("../");
     std::cout << "pwd=" << GetCurrentWorkingDir() << std::endl;
-    auto testCaseFinder = TestFinder();
+    string path = "what_we_test/Root/string_distance_test";
+    auto testCaseFinder = TestFinder(path);
 
     auto tests = testCaseFinder.getTestCases();
     cout << "test.size = " << tests.size() << endl;
