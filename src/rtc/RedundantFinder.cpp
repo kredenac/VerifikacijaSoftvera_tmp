@@ -38,6 +38,11 @@ void RedundantFinder::checkTests()
     }
 }
 
+bool RedundantFinder::hasRedundant()
+{
+    return any_of(tests.cbegin(), tests.cend(), [](const TestCase &test){return test.isRedundant;});
+}
+
 double RedundantFinder::getGcovLineCoverage()
 {
     // build, run program, then get gcov line coverage

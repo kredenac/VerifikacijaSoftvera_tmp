@@ -12,10 +12,7 @@ class RedundantFinder
 public:
     RedundantFinder(vector<TestCase> & tests);
 
-    bool hasRedundant()
-    {
-        return false;
-    }
+    bool hasRedundant();
 
     vector<TestCase> getRedundant();
 
