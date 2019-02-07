@@ -12,6 +12,7 @@ void TestCase::Comment()
 //    printf("%s\n", comment_sh);
 
     system(comment_sh);
+    system(comment_slot_sh);
 }
 
 void TestCase::unComment()
@@ -27,4 +28,5 @@ void TestCase::unComment()
 //    printf("%s\n", uncomment_sh);
 
     system(uncomment_sh);
+    system(uncomment_slot_sh);
 }
