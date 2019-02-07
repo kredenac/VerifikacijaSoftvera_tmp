@@ -1,6 +1,10 @@
 #include "RedundantFinder.h"
 #include <algorithm>
 #include <iterator>
+#include <string>
+#include <fstream>
+#include <streambuf>
+
 
 RedundantFinder::RedundantFinder(vector<TestCase> & tests) : tests(tests)
 {
@@ -20,7 +24,17 @@ double RedundantFinder::getGcovLineCoverage()
     // build, run program, then get gcov line coverage
     // TODO call rale script
     system("myfile.sh"); // myfile.sh should be chmod +x
-    return 0.;
+    std::ifstream t("../comm.txt");
+    // read file into one string
+    std::string str((std::istreambuf_iterator<char>(t)),
+                     std::istreambuf_iterator<char>());
+    t.close();
+    if (str.find("error") != string::npos){
+        cout << "error while calling python script" << endl;
+    }
+    double cov = atof(str.c_str());
+
+    return cov;
 }
 
 void RedundantFinder::checkIsRedundant(TestCase &t, double baseline)

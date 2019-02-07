@@ -4,7 +4,7 @@
 
 const unsigned MAX_LINE = 512U;
 
-const string TestFinder::path = "../what_we_test";
+const string TestFinder::path = "../what_we_test/Root/string_distance_test";
 
 vector<TestCase> TestFinder::testovi;
 
@@ -37,8 +37,9 @@ int TestFinder::nftwCallback(const char *fpath, const struct stat *, int tflag, 
         ++lineNum;
         if (LINE.find("#include <QtTest>") != string::npos)
             x = true;
-        if (LINE.find("private slots:") != string::npos && x)
+        if (LINE.find("private Q_SLOTS:") != string::npos && x)
         {
+            //FIXME bug here, does not handle newlines
             while (!f.eof())
             {
                 f.getline(line, MAX_LINE);

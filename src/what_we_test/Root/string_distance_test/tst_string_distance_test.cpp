@@ -14,7 +14,6 @@ private Q_SLOTS:
     void testHamming1();
     void testHamming2();
     void testHamming3();
-
     void testLevenshtein1();
     void testLevenshtein2();
     void testLevenshtein3();
