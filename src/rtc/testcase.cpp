@@ -2,14 +2,24 @@
 
 void TestCase::Comment()
 {
-    isRedundant = true;
-    // TODO call rale script
-    system("myfile.sh"); // myfile.sh should be chmod +x
+//    isRedundant = true;
+
+    char comment_sh[50+fileName.length()];
+    sprintf(comment_sh, "sed -i \"%d,%ds/.*/\\/\\/&/\" %s", beginLine, endLine, fileName.c_str());
+
+//    printf("%s\n", comment_sh);
+
+    system(comment_sh);
 }
 
 void TestCase::unComment()
 {
-    isRedundant = false;
-    // TODO call rale script
-    system("myfile.sh"); // myfile.sh should be chmod +x
+//    isRedundant = false;
+
+    char uncomment_sh[50+fileName.length()];
+    sprintf(uncomment_sh, "sed -i \"%d,%ds/^\\(\\s*\\/\\/\\)*//\" %s", beginLine, endLine, fileName.c_str());
+
+//    printf("%s\n", uncomment_sh);
+
+    system(uncomment_sh);
 }
