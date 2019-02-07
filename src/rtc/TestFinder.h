@@ -14,12 +14,12 @@ using namespace std;
 class TestFinder
 {
 public:
-    TestFinder();
+    TestFinder(string &path);
 
     // returns all test cases
     vector<TestCase> getTestCases() const;
 private:
-    static const string path;
+    string path;
     static vector<TestCase> testovi;
     static int nftwCallback(const char *fpath, const struct stat *sb, int typeFlag, struct FTW *ftwbuf);
 };
