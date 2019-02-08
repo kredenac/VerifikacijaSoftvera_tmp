@@ -14,8 +14,8 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
-QMAKE_CXXFLAGS += -O0 -fprofile-arcs -ftest-coverage
-QMAKE_LFLAGS += -O0 -fprofile-arcs -ftest-coverage
+QMAKE_CXXFLAGS += -g -O0 --coverage
+QMAKE_LFLAGS += -g -O0 --coverage
 
 SOURCES += tst_string_distance_test.cpp \
     ../String_distance/string_distance.cpp

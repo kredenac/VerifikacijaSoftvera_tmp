@@ -14,7 +14,8 @@ int hamming_distance(string s1, string s2)
                 hamdist += 1;
             }
         }
-    } else
+    }
+    else
     {
         hamdist = -1;
     }

@@ -2,8 +2,6 @@ import subprocess
 import os
 import re
 
-#print("hi")
-
 def bash(command):
     arr = command.split()
     res = None
@@ -48,10 +46,10 @@ os.chdir(folder)
 
 folder = "build-cov"
 #remove the folder and contents
-bash("pwd")
-bash("ls")
+#bash("pwd")
+#bash("ls")
 bash("rm -rf "+folder)
-bash("ls")
+#bash("ls")
 
 try:
     os.makedirs(folder)
@@ -59,7 +57,7 @@ except OSError as e:
     print("error " + e)
 
 os.chdir(folder)
-bash("pwd")
+#bash("pwd")
 
 projName = "string_distance_test"
 projPath = "../Root/" + projName + "/" + projName + ".pro"
@@ -73,6 +71,3 @@ bash("./"+fileName)
 gcov_out = bash("gcov string_distance.cpp")
 cvg_percent = coverage_percent(gcov_out)
 print("%.6f" % cvg_percent)
-
-
-#print("bye")

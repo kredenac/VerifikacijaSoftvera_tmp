@@ -33,6 +33,7 @@ RedundantFinder::RedundantFinder(vector<TestCase> & tests) : tests(tests)
 void RedundantFinder::checkTests()
 {
     double baselineCov = getGcovLineCoverage();
+    cout << "baseline coverage: " << baselineCov << endl;
     for (unsigned i=0; i<tests.size(); i++){
         checkIsRedundant(tests[i], baselineCov);
     }
@@ -48,7 +49,7 @@ double RedundantFinder::getGcovLineCoverage()
     // build, run program, then get gcov line coverage
     string command = "python build_n_run.py";
     string result = GetStdoutFromCommand(command);
-    cout << result << endl; // just for debugging
+
     if (result.find("error") != string::npos){
         cout << "error while calling python script" << endl;
     }
@@ -63,6 +64,8 @@ void RedundantFinder::checkIsRedundant(TestCase &t, double baseline)
     double currCov = getGcovLineCoverage();
     if (currCov == baseline){
         t.isRedundant = true;
+        cout << t.functionName << " is redundant, coverage without it: "
+             << currCov << endl;
     } else if (currCov > baseline){
         cout << "error, currcov > baseline" << endl;
     }

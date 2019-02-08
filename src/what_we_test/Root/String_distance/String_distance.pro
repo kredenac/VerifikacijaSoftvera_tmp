@@ -9,3 +9,7 @@ SOURCES += \
 
 HEADERS += \
     string_distance.h
+
+QMAKE_CXXFLAGS += -g -O0 -fprofile-arcs -ftest-coverage
+QMAKE_LFLAGS += -g -O0 -fprofile-arcs -ftest-coverage
+
