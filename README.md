@@ -48,3 +48,11 @@ There is a sample project on which the project can be tested that is located in 
 The test project should be written in Qt unit framework. We automatically find all test cases and find all redundant ones.
 
 
+## :baby: Team
+
+| ![](https://avatars0.githubusercontent.com/u/22803285?s=300) | ![](https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/200px-Octicons-mark-github.svg.png) | 
+| :---: | :---: |
+| <a href="https://github.com/kredenac" target="_blank">`https://github.com/kredenac`</a> | <a href="https://github.com/mm11021" target="_blank">`https://github.com/mm11021`</a> | 
+| ![](https://avatars0.githubusercontent.com/u/23039830?s=300) | ![](https://avatars2.githubusercontent.com/u/23014769?s=300) |
+| <a href="https://github.com/Nacili" target="_blank">`https://github.com/Nacili`</a> | <a href="https://github.com/leonardovlibido" target="_blank">`https://github.com/leonardovlibido`</a> |
+
