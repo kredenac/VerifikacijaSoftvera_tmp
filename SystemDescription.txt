@@ -1,0 +1,57 @@
+(1) Problem Description:
+
+Redundant test cases are such test cases that when they are removed from the corpus,
+the quality of testing results is not decreased. Formally, a test t is redundant with respect 
+to a test suite S iff for each method execution produced by t, there exists an equivalent 
+method executiuon of some test from S.
+Why would we ever want to remove any valid tests?
+Because continuous growth of test cases may affect the cost of maintenance and test execution.
+Problem is exceptionally noticeable in open source projects. New tests are being added without
+checking if some older tests become redundant. 
+
+(2) System Architecture Description (description of basic implementation modules):
+
+Main executable is written in c++. Its responsibility is to first parse project directory and find 
+all test cases. It also calls bash scripts to comment and uncomment tests.
+
+Python script is used to compile the project which is tested, run the generated executable, 
+call gcov to generate coverage, and finally parse it and return the result to main program.
+
+(3) Solution Description (basic ideas, explanmation of key decisions, description of base algorithm)
+
+Basic idea:
+Find all test cases and turn them off one by one. Check if coverage is still the same 
+without them, if it is then it doesn't contribute to our coverage metric, and therefore is redundant.
+
+We have decided to use line coverage as the main metric for its straightforward interpretation and usage.
+When implementing a solution to this problem it had to be decided on which testing framework to focus on.
+Decision to use Qt Test was made because it is cross platform and our team members are comfortable 
+with it. Decision to use gcov as coverage tool was made because it is a part of GNU ecosystem and 
+is compatible with its compiler - gcc.
+
+Base algorithm given as pseudocode:
+
+getCoverage()
+    compile project
+    run tests
+    generate coverage
+    parse it and return metric
+
+main()
+    tests = {}
+
+    for file in directory
+        for test in file
+            tests.add(test)
+
+    baseline = getCoverage()
+
+    for test in tests
+        coverage = getCoverage()
+        if coverage < baseline
+            test.isRedundant = false
+        else
+            test.isRedundant = true
+    
+    print tests.filter(isRedundant)
+
