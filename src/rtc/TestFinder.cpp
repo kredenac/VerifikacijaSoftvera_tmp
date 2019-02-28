@@ -1,10 +1,12 @@
 #include "TestFinder.h"
 #include <fstream>
-#include <utility>
+#include "lexer.h"
+#include "parser.hpp"
 
-const unsigned MAX_LINE = 512U;
+//const unsigned MAX_LINE = 512U;
 
 vector<TestCase> TestFinder::testovi;
+map<string, unsigned> TestFinder::testFunctionNames;
 
 TestFinder::TestFinder(string &path) : path(path)
 {
@@ -21,10 +23,11 @@ int TestFinder::nftwCallback(const char *fpath, const struct stat *, int tflag, 
         return 0;
     if (path.substr(tacka) != ".cpp") // && path.substr(tacka) != ".h"
         return 0;
-    ifstream f(fpath);
+    ifstream f(path);
     if (!f.is_open())
         return -1;
-    vector< pair<string, unsigned> > testFunctionNames;
+    testFunctionNames.clear();
+    /* PRIMITIVNI PARSER; ZAMENJEN JE PARSEROM DOBIJENIM LEX-OM I YACC-OM
     char line[MAX_LINE];
     unsigned lineNum = 0U;
     bool x = false;
@@ -48,7 +51,7 @@ int TestFinder::nftwCallback(const char *fpath, const struct stat *, int tflag, 
                 auto space = LINE.find("void ") + 5;
                 auto zagrada = LINE.find("(");
                 string functionName = LINE.substr(space, zagrada - space);
-                testFunctionNames.push_back(make_pair(functionName, lineNum));
+                testFunctionNames.insert(make_pair(functionName, lineNum));
             }
         }
         if (!testFunctionNames.empty())
@@ -82,8 +85,11 @@ int TestFinder::nftwCallback(const char *fpath, const struct stat *, int tflag, 
                 }
             }
         }
-    }
-    return 0;
+    }*/
+    yy::Lexer lexer;
+    lexer.switch_streams(f, std::cout);
+    yy::parser parser(lexer, path);
+    return parser.parse();
 }
 
 vector<TestCase> TestFinder::getTestCases() const

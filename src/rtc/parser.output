@@ -1,0 +1,769 @@
+Grammar
+
+    0 $accept: Program END
+
+    1 Program: NizNaredbi
+
+    2 NizNaredbi: NizNaredbi Naredba
+    3           | %empty
+
+    4 Naredba: Pretprocesor
+    5        | DefinicijaTipa
+    6        | Blok
+    7        | Skip
+    8        | Test
+
+    9 Pretprocesor: INCLUDE_QT_TEST
+   10             | PREPROCESSOR
+
+   11 Blok: OVZAGRADA NizNaredbi ZVZAGRADA
+
+   12 Skip: Id
+   13     | TACKAZAPETA
+   14     | ZAPETA
+
+   15 DefinicijaTipa: CLASS ID OVZAGRADA NizDeklaracijaUTipu ZVZAGRADA TACKAZAPETA
+   16               | CLASS ID DVOTACKA NizNasledjivaja OVZAGRADA NizDeklaracijaUTipu ZVZAGRADA TACKAZAPETA
+
+   17 NizDeklaracijaUTipu: NizNaredbi
+   18                    | NizDeklaracijaUTipu MODIFIER NizID DVOTACKA NizNaredbi
+   19                    | NizDeklaracijaUTipu PRIVATE NizID DVOTACKA NizNaredbi
+   20                    | NizDeklaracijaUTipu PRIVATE Q_SLOTS DVOTACKA NizNaredbi
+
+   21 NizNasledjivaja: NizNasledjivaja ZAPETA MODIFIER Id
+   22                | NizNasledjivaja ZAPETA PRIVATE Id
+   23                | MODIFIER Id
+   24                | PRIVATE Id
+
+   25 Id: Id DVEDVOTACKE ID
+   26   | ID
+
+   27 NizID: NizID Id
+   28      | %empty
+
+   29 NizArgumenata: NizArgumenata ZAPETA Id
+   30              | NizArgumenata Id
+   31              | %empty
+
+   32 Test: VOID Id NizArgumenata TACKAZAPETA
+
+   33 $@1: %empty
+
+   34 Test: VOID Id NizArgumenata $@1 Blok
+
+
+Terminals, with rules where they appear
+
+END (0) 0
+error (256)
+CLASS (258) 15 16
+INCLUDE_QT_TEST (259) 9
+PREPROCESSOR (260) 10
+MODIFIER (261) 18 21 23
+PRIVATE (262) 19 20 22 24
+Q_SLOTS (263) 20
+OVZAGRADA (264) 11 15 16
+ZVZAGRADA (265) 11 15 16
+DVOTACKA (266) 16 18 19 20
+DVEDVOTACKE (267) 25
+ZAPETA (268) 14 21 22 29
+TACKAZAPETA (269) 13 15 16 32
+VOID (270) 32 34
+ID <std::string> (271) 15 16 25 26
+
+
+Nonterminals, with rules where they appear
+
+$accept (17)
+    on left: 0
+Program (18)
+    on left: 1, on right: 0
+NizNaredbi (19)
+    on left: 2 3, on right: 1 2 11 17 18 19 20
+Naredba (20)
+    on left: 4 5 6 7 8, on right: 2
+Pretprocesor (21)
+    on left: 9 10, on right: 4
+Blok (22)
+    on left: 11, on right: 6 34
+Skip (23)
+    on left: 12 13 14, on right: 7
+DefinicijaTipa (24)
+    on left: 15 16, on right: 5
+NizDeklaracijaUTipu (25)
+    on left: 17 18 19 20, on right: 15 16 18 19 20
+NizNasledjivaja (26)
+    on left: 21 22 23 24, on right: 16 21 22
+Id <std::string> (27)
+    on left: 25 26, on right: 12 21 22 23 24 25 27 29 30 32 34
+NizID (28)
+    on left: 27 28, on right: 18 19 27
+NizArgumenata (29)
+    on left: 29 30 31, on right: 29 30 32 34
+Test (30)
+    on left: 32 34, on right: 8
+$@1 (31)
+    on left: 33, on right: 34
+
+
+State 0
+
+    0 $accept: . Program END
+
+    $default  reduce using rule 3 (NizNaredbi)
+
+    Program     go to state 1
+    NizNaredbi  go to state 2
+
+
+State 1
+
+    0 $accept: Program . END
+
+    END  shift, and go to state 3
+
+
+State 2
+
+    1 Program: NizNaredbi .
+    2 NizNaredbi: NizNaredbi . Naredba
+
+    CLASS            shift, and go to state 4
+    INCLUDE_QT_TEST  shift, and go to state 5
+    PREPROCESSOR     shift, and go to state 6
+    OVZAGRADA        shift, and go to state 7
+    ZAPETA           shift, and go to state 8
+    TACKAZAPETA      shift, and go to state 9
+    VOID             shift, and go to state 10
+    ID               shift, and go to state 11
+
+    $default  reduce using rule 1 (Program)
+
+    Naredba         go to state 12
+    Pretprocesor    go to state 13
+    Blok            go to state 14
+    Skip            go to state 15
+    DefinicijaTipa  go to state 16
+    Id              go to state 17
+    Test            go to state 18
+
+
+State 3
+
+    0 $accept: Program END .
+
+    $default  accept
+
+
+State 4
+
+   15 DefinicijaTipa: CLASS . ID OVZAGRADA NizDeklaracijaUTipu ZVZAGRADA TACKAZAPETA
+   16               | CLASS . ID DVOTACKA NizNasledjivaja OVZAGRADA NizDeklaracijaUTipu ZVZAGRADA TACKAZAPETA
+
+    ID  shift, and go to state 19
+
+
+State 5
+
+    9 Pretprocesor: INCLUDE_QT_TEST .
+
+    $default  reduce using rule 9 (Pretprocesor)
+
+
+State 6
+
+   10 Pretprocesor: PREPROCESSOR .
+
+    $default  reduce using rule 10 (Pretprocesor)
+
+
+State 7
+
+   11 Blok: OVZAGRADA . NizNaredbi ZVZAGRADA
+
+    $default  reduce using rule 3 (NizNaredbi)
+
+    NizNaredbi  go to state 20
+
+
+State 8
+
+   14 Skip: ZAPETA .
+
+    $default  reduce using rule 14 (Skip)
+
+
+State 9
+
+   13 Skip: TACKAZAPETA .
+
+    $default  reduce using rule 13 (Skip)
+
+
+State 10
+
+   32 Test: VOID . Id NizArgumenata TACKAZAPETA
+   34     | VOID . Id NizArgumenata $@1 Blok
+
+    ID  shift, and go to state 11
+
+    Id  go to state 21
+
+
+State 11
+
+   26 Id: ID .
+
+    $default  reduce using rule 26 (Id)
+
+
+State 12
+
+    2 NizNaredbi: NizNaredbi Naredba .
+
+    $default  reduce using rule 2 (NizNaredbi)
+
+
+State 13
+
+    4 Naredba: Pretprocesor .
+
+    $default  reduce using rule 4 (Naredba)
+
+
+State 14
+
+    6 Naredba: Blok .
+
+    $default  reduce using rule 6 (Naredba)
+
+
+State 15
+
+    7 Naredba: Skip .
+
+    $default  reduce using rule 7 (Naredba)
+
+
+State 16
+
+    5 Naredba: DefinicijaTipa .
+
+    $default  reduce using rule 5 (Naredba)
+
+
+State 17
+
+   12 Skip: Id .
+   25 Id: Id . DVEDVOTACKE ID
+
+    DVEDVOTACKE  shift, and go to state 22
+
+    $default  reduce using rule 12 (Skip)
+
+
+State 18
+
+    8 Naredba: Test .
+
+    $default  reduce using rule 8 (Naredba)
+
+
+State 19
+
+   15 DefinicijaTipa: CLASS ID . OVZAGRADA NizDeklaracijaUTipu ZVZAGRADA TACKAZAPETA
+   16               | CLASS ID . DVOTACKA NizNasledjivaja OVZAGRADA NizDeklaracijaUTipu ZVZAGRADA TACKAZAPETA
+
+    OVZAGRADA  shift, and go to state 23
+    DVOTACKA   shift, and go to state 24
+
+
+State 20
+
+    2 NizNaredbi: NizNaredbi . Naredba
+   11 Blok: OVZAGRADA NizNaredbi . ZVZAGRADA
+
+    CLASS            shift, and go to state 4
+    INCLUDE_QT_TEST  shift, and go to state 5
+    PREPROCESSOR     shift, and go to state 6
+    OVZAGRADA        shift, and go to state 7
+    ZVZAGRADA        shift, and go to state 25
+    ZAPETA           shift, and go to state 8
+    TACKAZAPETA      shift, and go to state 9
+    VOID             shift, and go to state 10
+    ID               shift, and go to state 11
+
+    Naredba         go to state 12
+    Pretprocesor    go to state 13
+    Blok            go to state 14
+    Skip            go to state 15
+    DefinicijaTipa  go to state 16
+    Id              go to state 17
+    Test            go to state 18
+
+
+State 21
+
+   25 Id: Id . DVEDVOTACKE ID
+   32 Test: VOID Id . NizArgumenata TACKAZAPETA
+   34     | VOID Id . NizArgumenata $@1 Blok
+
+    DVEDVOTACKE  shift, and go to state 22
+
+    $default  reduce using rule 31 (NizArgumenata)
+
+    NizArgumenata  go to state 26
+
+
+State 22
+
+   25 Id: Id DVEDVOTACKE . ID
+
+    ID  shift, and go to state 27
+
+
+State 23
+
+   15 DefinicijaTipa: CLASS ID OVZAGRADA . NizDeklaracijaUTipu ZVZAGRADA TACKAZAPETA
+
+    $default  reduce using rule 3 (NizNaredbi)
+
+    NizNaredbi           go to state 28
+    NizDeklaracijaUTipu  go to state 29
+
+
+State 24
+
+   16 DefinicijaTipa: CLASS ID DVOTACKA . NizNasledjivaja OVZAGRADA NizDeklaracijaUTipu ZVZAGRADA TACKAZAPETA
+
+    MODIFIER  shift, and go to state 30
+    PRIVATE   shift, and go to state 31
+
+    NizNasledjivaja  go to state 32
+
+
+State 25
+
+   11 Blok: OVZAGRADA NizNaredbi ZVZAGRADA .
+
+    $default  reduce using rule 11 (Blok)
+
+
+State 26
+
+   29 NizArgumenata: NizArgumenata . ZAPETA Id
+   30              | NizArgumenata . Id
+   32 Test: VOID Id NizArgumenata . TACKAZAPETA
+   34     | VOID Id NizArgumenata . $@1 Blok
+
+    ZAPETA       shift, and go to state 33
+    TACKAZAPETA  shift, and go to state 34
+    ID           shift, and go to state 11
+
+    $default  reduce using rule 33 ($@1)
+
+    Id   go to state 35
+    $@1  go to state 36
+
+
+State 27
+
+   25 Id: Id DVEDVOTACKE ID .
+
+    $default  reduce using rule 25 (Id)
+
+
+State 28
+
+    2 NizNaredbi: NizNaredbi . Naredba
+   17 NizDeklaracijaUTipu: NizNaredbi .
+
+    CLASS            shift, and go to state 4
+    INCLUDE_QT_TEST  shift, and go to state 5
+    PREPROCESSOR     shift, and go to state 6
+    OVZAGRADA        shift, and go to state 7
+    ZAPETA           shift, and go to state 8
+    TACKAZAPETA      shift, and go to state 9
+    VOID             shift, and go to state 10
+    ID               shift, and go to state 11
+
+    $default  reduce using rule 17 (NizDeklaracijaUTipu)
+
+    Naredba         go to state 12
+    Pretprocesor    go to state 13
+    Blok            go to state 14
+    Skip            go to state 15
+    DefinicijaTipa  go to state 16
+    Id              go to state 17
+    Test            go to state 18
+
+
+State 29
+
+   15 DefinicijaTipa: CLASS ID OVZAGRADA NizDeklaracijaUTipu . ZVZAGRADA TACKAZAPETA
+   18 NizDeklaracijaUTipu: NizDeklaracijaUTipu . MODIFIER NizID DVOTACKA NizNaredbi
+   19                    | NizDeklaracijaUTipu . PRIVATE NizID DVOTACKA NizNaredbi
+   20                    | NizDeklaracijaUTipu . PRIVATE Q_SLOTS DVOTACKA NizNaredbi
+
+    MODIFIER   shift, and go to state 37
+    PRIVATE    shift, and go to state 38
+    ZVZAGRADA  shift, and go to state 39
+
+
+State 30
+
+   23 NizNasledjivaja: MODIFIER . Id
+
+    ID  shift, and go to state 11
+
+    Id  go to state 40
+
+
+State 31
+
+   24 NizNasledjivaja: PRIVATE . Id
+
+    ID  shift, and go to state 11
+
+    Id  go to state 41
+
+
+State 32
+
+   16 DefinicijaTipa: CLASS ID DVOTACKA NizNasledjivaja . OVZAGRADA NizDeklaracijaUTipu ZVZAGRADA TACKAZAPETA
+   21 NizNasledjivaja: NizNasledjivaja . ZAPETA MODIFIER Id
+   22                | NizNasledjivaja . ZAPETA PRIVATE Id
+
+    OVZAGRADA  shift, and go to state 42
+    ZAPETA     shift, and go to state 43
+
+
+State 33
+
+   29 NizArgumenata: NizArgumenata ZAPETA . Id
+
+    ID  shift, and go to state 11
+
+    Id  go to state 44
+
+
+State 34
+
+   32 Test: VOID Id NizArgumenata TACKAZAPETA .
+
+    $default  reduce using rule 32 (Test)
+
+
+State 35
+
+   25 Id: Id . DVEDVOTACKE ID
+   30 NizArgumenata: NizArgumenata Id .
+
+    DVEDVOTACKE  shift, and go to state 22
+
+    $default  reduce using rule 30 (NizArgumenata)
+
+
+State 36
+
+   34 Test: VOID Id NizArgumenata $@1 . Blok
+
+    OVZAGRADA  shift, and go to state 7
+
+    Blok  go to state 45
+
+
+State 37
+
+   18 NizDeklaracijaUTipu: NizDeklaracijaUTipu MODIFIER . NizID DVOTACKA NizNaredbi
+
+    $default  reduce using rule 28 (NizID)
+
+    NizID  go to state 46
+
+
+State 38
+
+   19 NizDeklaracijaUTipu: NizDeklaracijaUTipu PRIVATE . NizID DVOTACKA NizNaredbi
+   20                    | NizDeklaracijaUTipu PRIVATE . Q_SLOTS DVOTACKA NizNaredbi
+
+    Q_SLOTS  shift, and go to state 47
+
+    $default  reduce using rule 28 (NizID)
+
+    NizID  go to state 48
+
+
+State 39
+
+   15 DefinicijaTipa: CLASS ID OVZAGRADA NizDeklaracijaUTipu ZVZAGRADA . TACKAZAPETA
+
+    TACKAZAPETA  shift, and go to state 49
+
+
+State 40
+
+   23 NizNasledjivaja: MODIFIER Id .
+   25 Id: Id . DVEDVOTACKE ID
+
+    DVEDVOTACKE  shift, and go to state 22
+
+    $default  reduce using rule 23 (NizNasledjivaja)
+
+
+State 41
+
+   24 NizNasledjivaja: PRIVATE Id .
+   25 Id: Id . DVEDVOTACKE ID
+
+    DVEDVOTACKE  shift, and go to state 22
+
+    $default  reduce using rule 24 (NizNasledjivaja)
+
+
+State 42
+
+   16 DefinicijaTipa: CLASS ID DVOTACKA NizNasledjivaja OVZAGRADA . NizDeklaracijaUTipu ZVZAGRADA TACKAZAPETA
+
+    $default  reduce using rule 3 (NizNaredbi)
+
+    NizNaredbi           go to state 28
+    NizDeklaracijaUTipu  go to state 50
+
+
+State 43
+
+   21 NizNasledjivaja: NizNasledjivaja ZAPETA . MODIFIER Id
+   22                | NizNasledjivaja ZAPETA . PRIVATE Id
+
+    MODIFIER  shift, and go to state 51
+    PRIVATE   shift, and go to state 52
+
+
+State 44
+
+   25 Id: Id . DVEDVOTACKE ID
+   29 NizArgumenata: NizArgumenata ZAPETA Id .
+
+    DVEDVOTACKE  shift, and go to state 22
+
+    $default  reduce using rule 29 (NizArgumenata)
+
+
+State 45
+
+   34 Test: VOID Id NizArgumenata $@1 Blok .
+
+    $default  reduce using rule 34 (Test)
+
+
+State 46
+
+   18 NizDeklaracijaUTipu: NizDeklaracijaUTipu MODIFIER NizID . DVOTACKA NizNaredbi
+   27 NizID: NizID . Id
+
+    DVOTACKA  shift, and go to state 53
+    ID        shift, and go to state 11
+
+    Id  go to state 54
+
+
+State 47
+
+   20 NizDeklaracijaUTipu: NizDeklaracijaUTipu PRIVATE Q_SLOTS . DVOTACKA NizNaredbi
+
+    DVOTACKA  shift, and go to state 55
+
+
+State 48
+
+   19 NizDeklaracijaUTipu: NizDeklaracijaUTipu PRIVATE NizID . DVOTACKA NizNaredbi
+   27 NizID: NizID . Id
+
+    DVOTACKA  shift, and go to state 56
+    ID        shift, and go to state 11
+
+    Id  go to state 54
+
+
+State 49
+
+   15 DefinicijaTipa: CLASS ID OVZAGRADA NizDeklaracijaUTipu ZVZAGRADA TACKAZAPETA .
+
+    $default  reduce using rule 15 (DefinicijaTipa)
+
+
+State 50
+
+   16 DefinicijaTipa: CLASS ID DVOTACKA NizNasledjivaja OVZAGRADA NizDeklaracijaUTipu . ZVZAGRADA TACKAZAPETA
+   18 NizDeklaracijaUTipu: NizDeklaracijaUTipu . MODIFIER NizID DVOTACKA NizNaredbi
+   19                    | NizDeklaracijaUTipu . PRIVATE NizID DVOTACKA NizNaredbi
+   20                    | NizDeklaracijaUTipu . PRIVATE Q_SLOTS DVOTACKA NizNaredbi
+
+    MODIFIER   shift, and go to state 37
+    PRIVATE    shift, and go to state 38
+    ZVZAGRADA  shift, and go to state 57
+
+
+State 51
+
+   21 NizNasledjivaja: NizNasledjivaja ZAPETA MODIFIER . Id
+
+    ID  shift, and go to state 11
+
+    Id  go to state 58
+
+
+State 52
+
+   22 NizNasledjivaja: NizNasledjivaja ZAPETA PRIVATE . Id
+
+    ID  shift, and go to state 11
+
+    Id  go to state 59
+
+
+State 53
+
+   18 NizDeklaracijaUTipu: NizDeklaracijaUTipu MODIFIER NizID DVOTACKA . NizNaredbi
+
+    $default  reduce using rule 3 (NizNaredbi)
+
+    NizNaredbi  go to state 60
+
+
+State 54
+
+   25 Id: Id . DVEDVOTACKE ID
+   27 NizID: NizID Id .
+
+    DVEDVOTACKE  shift, and go to state 22
+
+    $default  reduce using rule 27 (NizID)
+
+
+State 55
+
+   20 NizDeklaracijaUTipu: NizDeklaracijaUTipu PRIVATE Q_SLOTS DVOTACKA . NizNaredbi
+
+    $default  reduce using rule 3 (NizNaredbi)
+
+    NizNaredbi  go to state 61
+
+
+State 56
+
+   19 NizDeklaracijaUTipu: NizDeklaracijaUTipu PRIVATE NizID DVOTACKA . NizNaredbi
+
+    $default  reduce using rule 3 (NizNaredbi)
+
+    NizNaredbi  go to state 62
+
+
+State 57
+
+   16 DefinicijaTipa: CLASS ID DVOTACKA NizNasledjivaja OVZAGRADA NizDeklaracijaUTipu ZVZAGRADA . TACKAZAPETA
+
+    TACKAZAPETA  shift, and go to state 63
+
+
+State 58
+
+   21 NizNasledjivaja: NizNasledjivaja ZAPETA MODIFIER Id .
+   25 Id: Id . DVEDVOTACKE ID
+
+    DVEDVOTACKE  shift, and go to state 22
+
+    $default  reduce using rule 21 (NizNasledjivaja)
+
+
+State 59
+
+   22 NizNasledjivaja: NizNasledjivaja ZAPETA PRIVATE Id .
+   25 Id: Id . DVEDVOTACKE ID
+
+    DVEDVOTACKE  shift, and go to state 22
+
+    $default  reduce using rule 22 (NizNasledjivaja)
+
+
+State 60
+
+    2 NizNaredbi: NizNaredbi . Naredba
+   18 NizDeklaracijaUTipu: NizDeklaracijaUTipu MODIFIER NizID DVOTACKA NizNaredbi .
+
+    CLASS            shift, and go to state 4
+    INCLUDE_QT_TEST  shift, and go to state 5
+    PREPROCESSOR     shift, and go to state 6
+    OVZAGRADA        shift, and go to state 7
+    ZAPETA           shift, and go to state 8
+    TACKAZAPETA      shift, and go to state 9
+    VOID             shift, and go to state 10
+    ID               shift, and go to state 11
+
+    $default  reduce using rule 18 (NizDeklaracijaUTipu)
+
+    Naredba         go to state 12
+    Pretprocesor    go to state 13
+    Blok            go to state 14
+    Skip            go to state 15
+    DefinicijaTipa  go to state 16
+    Id              go to state 17
+    Test            go to state 18
+
+
+State 61
+
+    2 NizNaredbi: NizNaredbi . Naredba
+   20 NizDeklaracijaUTipu: NizDeklaracijaUTipu PRIVATE Q_SLOTS DVOTACKA NizNaredbi .
+
+    CLASS            shift, and go to state 4
+    INCLUDE_QT_TEST  shift, and go to state 5
+    PREPROCESSOR     shift, and go to state 6
+    OVZAGRADA        shift, and go to state 7
+    ZAPETA           shift, and go to state 8
+    TACKAZAPETA      shift, and go to state 9
+    VOID             shift, and go to state 10
+    ID               shift, and go to state 11
+
+    $default  reduce using rule 20 (NizDeklaracijaUTipu)
+
+    Naredba         go to state 12
+    Pretprocesor    go to state 13
+    Blok            go to state 14
+    Skip            go to state 15
+    DefinicijaTipa  go to state 16
+    Id              go to state 17
+    Test            go to state 18
+
+
+State 62
+
+    2 NizNaredbi: NizNaredbi . Naredba
+   19 NizDeklaracijaUTipu: NizDeklaracijaUTipu PRIVATE NizID DVOTACKA NizNaredbi .
+
+    CLASS            shift, and go to state 4
+    INCLUDE_QT_TEST  shift, and go to state 5
+    PREPROCESSOR     shift, and go to state 6
+    OVZAGRADA        shift, and go to state 7
+    ZAPETA           shift, and go to state 8
+    TACKAZAPETA      shift, and go to state 9
+    VOID             shift, and go to state 10
+    ID               shift, and go to state 11
+
+    $default  reduce using rule 19 (NizDeklaracijaUTipu)
+
+    Naredba         go to state 12
+    Pretprocesor    go to state 13
+    Blok            go to state 14
+    Skip            go to state 15
+    DefinicijaTipa  go to state 16
+    Id              go to state 17
+    Test            go to state 18
+
+
+State 63
+
+   16 DefinicijaTipa: CLASS ID DVOTACKA NizNasledjivaja OVZAGRADA NizDeklaracijaUTipu ZVZAGRADA TACKAZAPETA .
+
+    $default  reduce using rule 16 (DefinicijaTipa)

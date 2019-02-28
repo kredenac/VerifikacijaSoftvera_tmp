@@ -30,3 +30,9 @@ void TestCase::unComment()
     system(uncomment_sh);
     system(uncomment_slot_sh);
 }
+
+std::ostream& operator<<(std::ostream &out, const TestCase &testCase)
+{
+    return out << '(' << testCase.functionName << ", " << testCase.fileName << ", " << testCase.slotLine
+               << ", " << testCase.beginLine << ", " << testCase.endLine << ')';
+}

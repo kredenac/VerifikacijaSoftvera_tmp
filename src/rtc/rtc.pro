@@ -12,7 +12,9 @@ TEMPLATE = app
 SOURCES += main.cpp \
     TestFinder.cpp \
     RedundantFinder.cpp \
-    testcase.cpp
+    testcase.cpp \
+    lexer.cpp \
+    parser.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -33,4 +35,9 @@ QMAKE_LFLAGS += -O0 -fprofile-arcs -ftest-coverage
 HEADERS += \
     TestFinder.h \
     RedundantFinder.h \
-    testcase.h
+    testcase.h \
+    lexer.h
+
+DISTFILES += \
+    parser.y \
+    lexer.l

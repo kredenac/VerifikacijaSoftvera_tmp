@@ -2,6 +2,7 @@
 #define TESTCASE_H
 
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -27,5 +28,6 @@ public:
 
 };
 
+std::ostream& operator<<(std::ostream &out, const TestCase &testCase);
 
 #endif // TESTCASE_H
