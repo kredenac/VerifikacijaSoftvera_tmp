@@ -863,7 +863,7 @@ namespace yy {
     {
       yyeof_ = 0,
       yylast_ = 68,     ///< Last index in yytable_.
-      yynnts_ = 15,  ///< Number of nonterminal symbols.
+      yynnts_ = 19,  ///< Number of nonterminal symbols.
       yyfinal_ = 3, ///< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
@@ -944,7 +944,7 @@ namespace yy {
     switch (other.type_get ())
     {
       case 16: // ID
-      case 27: // Id
+      case 31: // Id
         value.YY_MOVE_OR_COPY< std::string > (YY_MOVE (other.value));
         break;
 
@@ -993,7 +993,7 @@ namespace yy {
   switch (yytype)
     {
       case 16: // ID
-      case 27: // Id
+      case 31: // Id
         value.template destroy< std::string > ();
         break;
 
@@ -1019,7 +1019,7 @@ namespace yy {
     switch (this->type_get ())
     {
       case 16: // ID
-      case 27: // Id
+      case 31: // Id
         value.move< std::string > (YY_MOVE (s.value));
         break;
 

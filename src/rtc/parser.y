@@ -31,6 +31,7 @@
 
 int last_id_line;
 int beginL;
+bool isQtTestFile = false, isQ_SLOTS = false;
 
 void yy::parser::error(const std::string &message)
 {
@@ -76,7 +77,7 @@ Naredba
   ;
 
 Pretprocesor
-  : INCLUDE_QT_TEST
+  : INCLUDE_QT_TEST { isQtTestFile = true; }
   | PREPROCESSOR
   ;
 
@@ -92,14 +93,15 @@ Skip
 
 DefinicijaTipa
   : CLASS ID OVZAGRADA NizDeklaracijaUTipu ZVZAGRADA TACKAZAPETA
-  | CLASS ID DVOTACKA NizNasledjivaja OVZAGRADA NizDeklaracijaUTipu ZVZAGRADA TACKAZAPETA
+  | CLASS ID DVOTACKA NizNasledjivaja OVZAGRADA
+            { isQ_SLOTS = false; } NizDeklaracijaUTipu ZVZAGRADA TACKAZAPETA
   ;
 
 NizDeklaracijaUTipu
   : NizNaredbi
-  | NizDeklaracijaUTipu MODIFIER NizID DVOTACKA NizNaredbi
-  | NizDeklaracijaUTipu PRIVATE NizID DVOTACKA NizNaredbi
-  | NizDeklaracijaUTipu PRIVATE Q_SLOTS DVOTACKA NizNaredbi
+  | NizDeklaracijaUTipu MODIFIER NizID DVOTACKA { isQ_SLOTS = false; } NizNaredbi
+  | NizDeklaracijaUTipu PRIVATE NizID DVOTACKA { isQ_SLOTS = false; } NizNaredbi
+  | NizDeklaracijaUTipu PRIVATE Q_SLOTS DVOTACKA { isQ_SLOTS = true; } NizNaredbi
   ;
 
 NizNasledjivaja
@@ -126,12 +128,17 @@ NizArgumenata
   ;
 
 Test
-  : VOID Id NizArgumenata TACKAZAPETA { TestFinder::testFunctionNames[$2] = lexer.line_num; }
+  : VOID Id NizArgumenata TACKAZAPETA { if (isQtTestFile && isQ_SLOTS)
+                                            TestFinder::testFunctionNames[$2] = lexer.line_num; }
   | VOID Id NizArgumenata
-            { if (TestFinder::testFunctionNames.find($2) == TestFinder::testFunctionNames.cend())
-                TestFinder::testFunctionNames[$2] = lexer.line_num;
-              beginL = last_id_line;
-            } Blok { TestFinder::testovi.push_back(TestCase($2, path, TestFinder::testFunctionNames[$2], beginL, lexer.line_num)); }
+            { if (isQtTestFile && isQ_SLOTS)
+              {
+                if (TestFinder::testFunctionNames.find($2) == TestFinder::testFunctionNames.cend())
+                    TestFinder::testFunctionNames[$2] = lexer.line_num;
+                beginL = last_id_line;
+              }
+            } Blok { if (isQtTestFile && isQ_SLOTS)
+                        TestFinder::testovi.push_back(TestCase($2, path, TestFinder::testFunctionNames[$2], beginL, lexer.line_num)); }
   ;
 
 %%

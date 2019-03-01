@@ -56,6 +56,7 @@
 
 int last_id_line;
 int beginL;
+bool isQtTestFile = false, isQ_SLOTS = false;
 
 void yy::parser::error(const std::string &message)
 {
@@ -63,7 +64,7 @@ void yy::parser::error(const std::string &message)
 }
 
 
-#line 67 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:431
+#line 68 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:431
 
 #include "parser.hpp"
 
@@ -143,7 +144,7 @@ void yy::parser::error(const std::string &message)
 
 
 namespace yy {
-#line 147 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:512
+#line 148 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:512
 
   /// Build a parser object.
   parser::parser (yy::Lexer &lexer_yyarg, const std::string &path_yyarg)
@@ -210,7 +211,7 @@ namespace yy {
     switch (that.type_get ())
     {
       case 16: // ID
-      case 27: // Id
+      case 31: // Id
         value.YY_MOVE_OR_COPY< std::string > (YY_MOVE (that.value));
         break;
 
@@ -230,7 +231,7 @@ namespace yy {
     switch (that.type_get ())
     {
       case 16: // ID
-      case 27: // Id
+      case 31: // Id
         value.move< std::string > (YY_MOVE (that.value));
         break;
 
@@ -250,7 +251,7 @@ namespace yy {
     switch (that.type_get ())
     {
       case 16: // ID
-      case 27: // Id
+      case 31: // Id
         value.move< std::string > (that.value);
         break;
 
@@ -489,7 +490,7 @@ namespace yy {
       switch (yyr1_[yyn])
     {
       case 16: // ID
-      case 27: // Id
+      case 31: // Id
         yylhs.value.emplace< std::string > ();
         break;
 
@@ -507,41 +508,76 @@ namespace yy {
         {
           switch (yyn)
             {
-  case 26:
-#line 113 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.y" // lalr1.cc:906
+  case 10:
+#line 80 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.y" // lalr1.cc:906
+    { isQtTestFile = true; }
+#line 515 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:906
+    break;
+
+  case 17:
+#line 97 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.y" // lalr1.cc:906
+    { isQ_SLOTS = false; }
+#line 521 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:906
+    break;
+
+  case 20:
+#line 102 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.y" // lalr1.cc:906
+    { isQ_SLOTS = false; }
+#line 527 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:906
+    break;
+
+  case 22:
+#line 103 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.y" // lalr1.cc:906
+    { isQ_SLOTS = false; }
+#line 533 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:906
+    break;
+
+  case 24:
+#line 104 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.y" // lalr1.cc:906
+    { isQ_SLOTS = true; }
+#line 539 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:906
+    break;
+
+  case 30:
+#line 115 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.y" // lalr1.cc:906
     { last_id_line = lexer.line_num; yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
-#line 514 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:906
-    break;
-
-  case 27:
-#line 114 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.y" // lalr1.cc:906
-    { last_id_line = lexer.line_num; yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
-#line 520 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:906
-    break;
-
-  case 33:
-#line 129 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.y" // lalr1.cc:906
-    { TestFinder::testFunctionNames[yystack_[2].value.as< std::string > ()] = lexer.line_num; }
-#line 526 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:906
-    break;
-
-  case 34:
-#line 131 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.y" // lalr1.cc:906
-    { if (TestFinder::testFunctionNames.find(yystack_[1].value.as< std::string > ()) == TestFinder::testFunctionNames.cend())
-                TestFinder::testFunctionNames[yystack_[1].value.as< std::string > ()] = lexer.line_num;
-              beginL = last_id_line;
-            }
-#line 535 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:906
-    break;
-
-  case 35:
-#line 134 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.y" // lalr1.cc:906
-    { TestFinder::testovi.push_back(TestCase(yystack_[3].value.as< std::string > (), path, TestFinder::testFunctionNames[yystack_[3].value.as< std::string > ()], beginL, lexer.line_num)); }
-#line 541 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:906
-    break;
-
-
 #line 545 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:906
+    break;
+
+  case 31:
+#line 116 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.y" // lalr1.cc:906
+    { last_id_line = lexer.line_num; yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
+#line 551 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:906
+    break;
+
+  case 37:
+#line 131 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.y" // lalr1.cc:906
+    { if (isQtTestFile && isQ_SLOTS)
+                                            TestFinder::testFunctionNames[yystack_[2].value.as< std::string > ()] = lexer.line_num; }
+#line 558 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:906
+    break;
+
+  case 38:
+#line 134 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.y" // lalr1.cc:906
+    { if (isQtTestFile && isQ_SLOTS)
+              {
+                if (TestFinder::testFunctionNames.find(yystack_[1].value.as< std::string > ()) == TestFinder::testFunctionNames.cend())
+                    TestFinder::testFunctionNames[yystack_[1].value.as< std::string > ()] = lexer.line_num;
+                beginL = last_id_line;
+              }
+            }
+#line 570 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:906
+    break;
+
+  case 39:
+#line 140 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.y" // lalr1.cc:906
+    { if (isQtTestFile && isQ_SLOTS)
+                        TestFinder::testovi.push_back(TestCase(yystack_[3].value.as< std::string > (), path, TestFinder::testFunctionNames[yystack_[3].value.as< std::string > ()], beginL, lexer.line_num)); }
+#line 577 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:906
+    break;
+
+
+#line 581 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:906
             default:
               break;
             }
@@ -715,36 +751,36 @@ namespace yy {
      -10,    28,    31,   -10,    14,   -10,   -10,   -10,   -10,   -10,
       22,   -10,   -10,   -10,   -10,   -10,   -10,    29,   -10,     7,
       -1,    29,    34,   -10,    26,   -10,    35,   -10,    31,    13,
-      22,    22,    18,    22,   -10,    29,    43,   -10,    46,    45,
-      29,    29,   -10,    51,    29,   -10,    -6,    49,    -5,   -10,
-      19,    22,    22,   -10,    29,   -10,   -10,    47,    29,    29,
-      31,    31,    31,   -10
+      22,    22,    18,    22,   -10,    29,    45,   -10,    47,    42,
+      29,    29,   -10,    46,    29,   -10,    -6,    48,    -5,   -10,
+     -10,    22,    22,   -10,    29,   -10,   -10,    19,    29,    29,
+     -10,   -10,   -10,    43,    31,    31,    31,   -10
   };
 
   const unsigned char
   parser::yydefact_[] =
   {
        4,     0,     2,     1,     0,    10,    11,     4,    15,    14,
-       0,    27,     3,     5,     7,     8,     6,    13,     9,     0,
-       0,    32,     0,     4,     0,    12,    34,    26,    18,     0,
-       0,     0,     0,     0,    33,    31,     0,    29,    29,     0,
-      24,    25,     4,     0,    30,    35,     0,     0,     0,    16,
-       0,     0,     0,     4,    28,     4,     4,     0,    22,    23,
-      19,    21,    20,    17
+       0,    31,     3,     5,     7,     8,     6,    13,     9,     0,
+       0,    36,     0,     4,     0,    12,    38,    30,    19,     0,
+       0,     0,     0,     0,    37,    35,     0,    33,    33,     0,
+      28,    29,    17,     0,    34,    39,     0,     0,     0,    16,
+       4,     0,     0,    20,    32,    24,    22,     0,    26,    27,
+       4,     4,     4,     0,    21,    25,    23,    18
   };
 
   const signed char
   parser::yypgoto_[] =
   {
-     -10,   -10,     0,   -10,   -10,    27,   -10,   -10,    20,   -10,
-      -9,    30,   -10,   -10,   -10
+     -10,   -10,     0,   -10,   -10,    27,   -10,   -10,   -10,     8,
+     -10,   -10,   -10,   -10,    -9,    30,   -10,   -10,   -10
   };
 
   const signed char
   parser::yydefgoto_[] =
   {
-      -1,     1,    28,    12,    13,    14,    15,    16,    29,    32,
-      17,    46,    26,    18,    36
+      -1,     1,    28,    12,    13,    14,    15,    16,    50,    29,
+      60,    62,    61,    32,    17,    46,    26,    18,    36
   };
 
   const unsigned char
@@ -752,11 +788,11 @@ namespace yy {
   {
        2,    21,     4,     5,     6,    53,    56,    20,     7,    25,
       11,    11,     8,     9,    10,    11,    23,    35,    24,    37,
-      38,    40,    41,    39,    44,    37,    38,    42,     3,    57,
+      38,    40,    41,    39,    44,    37,    38,    42,     3,    63,
       19,    43,    30,    31,     4,     5,     6,    54,    11,    54,
        7,    22,    58,    59,     8,     9,    10,    11,    33,    34,
-      27,    11,     7,    60,    47,    61,    62,    51,    52,    49,
-      55,    63,    50,    45,     0,     0,     0,     0,    48
+      27,    11,    51,    52,     7,    47,    49,    67,    57,    55,
+      64,    65,    66,    45,     0,     0,     0,     0,    48
   };
 
   const signed char
@@ -767,38 +803,38 @@ namespace yy {
        7,    30,    31,    10,    33,     6,     7,     9,     0,    10,
       16,    13,     6,     7,     3,     4,     5,    46,    16,    48,
        9,    12,    51,    52,    13,    14,    15,    16,    13,    14,
-      16,    16,     9,    53,     8,    55,    56,     6,     7,    14,
-      11,    14,    42,    36,    -1,    -1,    -1,    -1,    38
+      16,    16,     6,     7,     9,     8,    14,    14,    50,    11,
+      60,    61,    62,    36,    -1,    -1,    -1,    -1,    38
   };
 
   const unsigned char
   parser::yystos_[] =
   {
        0,    18,    19,     0,     3,     4,     5,     9,    13,    14,
-      15,    16,    20,    21,    22,    23,    24,    27,    30,    16,
-      19,    27,    12,     9,    11,    10,    29,    16,    19,    25,
-       6,     7,    26,    13,    14,    27,    31,     6,     7,    10,
-      27,    27,     9,    13,    27,    22,    28,     8,    28,    14,
-      25,     6,     7,    11,    27,    11,    11,    10,    27,    27,
-      19,    19,    19,    14
+      15,    16,    20,    21,    22,    23,    24,    31,    34,    16,
+      19,    31,    12,     9,    11,    10,    33,    16,    19,    26,
+       6,     7,    30,    13,    14,    31,    35,     6,     7,    10,
+      31,    31,     9,    13,    31,    22,    32,     8,    32,    14,
+      25,     6,     7,    11,    31,    11,    11,    26,    31,    31,
+      27,    29,    28,    10,    19,    19,    19,    14
   };
 
   const unsigned char
   parser::yyr1_[] =
   {
        0,    17,    18,    19,    19,    20,    20,    20,    20,    20,
-      21,    21,    22,    23,    23,    23,    24,    24,    25,    25,
-      25,    25,    26,    26,    26,    26,    27,    27,    28,    28,
-      29,    29,    29,    30,    31,    30
+      21,    21,    22,    23,    23,    23,    24,    25,    24,    26,
+      27,    26,    28,    26,    29,    26,    30,    30,    30,    30,
+      31,    31,    32,    32,    33,    33,    33,    34,    35,    34
   };
 
   const unsigned char
   parser::yyr2_[] =
   {
        0,     2,     1,     2,     0,     1,     1,     1,     1,     1,
-       1,     1,     3,     1,     1,     1,     6,     8,     1,     5,
-       5,     5,     4,     4,     2,     2,     3,     1,     2,     0,
-       3,     2,     0,     4,     0,     5
+       1,     1,     3,     1,     1,     1,     6,     0,     9,     1,
+       0,     6,     0,     6,     0,     6,     4,     4,     2,     2,
+       3,     1,     2,     0,     3,     2,     0,     4,     0,     5
   };
 
 
@@ -812,18 +848,19 @@ namespace yy {
   "PREPROCESSOR", "MODIFIER", "PRIVATE", "Q_SLOTS", "OVZAGRADA",
   "ZVZAGRADA", "DVOTACKA", "DVEDVOTACKE", "ZAPETA", "TACKAZAPETA", "VOID",
   "ID", "$accept", "Program", "NizNaredbi", "Naredba", "Pretprocesor",
-  "Blok", "Skip", "DefinicijaTipa", "NizDeklaracijaUTipu",
-  "NizNasledjivaja", "Id", "NizID", "NizArgumenata", "Test", "$@1", YY_NULLPTR
+  "Blok", "Skip", "DefinicijaTipa", "$@1", "NizDeklaracijaUTipu", "$@2",
+  "$@3", "$@4", "NizNasledjivaja", "Id", "NizID", "NizArgumenata", "Test",
+  "$@5", YY_NULLPTR
   };
 
 
   const unsigned char
   parser::yyrline_[] =
   {
-       0,    62,    62,    66,    67,    71,    72,    73,    74,    75,
-      79,    80,    84,    88,    89,    90,    94,    95,    99,   100,
-     101,   102,   106,   107,   108,   109,   113,   114,   118,   119,
-     123,   124,   125,   129,   131,   130
+       0,    63,    63,    67,    68,    72,    73,    74,    75,    76,
+      80,    81,    85,    89,    90,    91,    95,    97,    96,   101,
+     102,   102,   103,   103,   104,   104,   108,   109,   110,   111,
+     115,   116,   120,   121,   125,   126,   127,   131,   134,   133
   };
 
   // Print the state stack on the debug stream.
@@ -858,6 +895,6 @@ namespace yy {
 
 
 } // yy
-#line 862 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:1217
-#line 137 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.y" // lalr1.cc:1218
+#line 899 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.cpp" // lalr1.cc:1217
+#line 144 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.y" // lalr1.cc:1218
 
