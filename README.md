@@ -12,6 +12,8 @@ This is a Software Verification course project. The program can be used to find 
 ```
 ### Installing prerequisites
 
+You will need flex and bison.
+
 #### Supported operating systems
 
 We support linux-based systems only.
