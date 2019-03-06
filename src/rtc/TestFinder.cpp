@@ -23,6 +23,7 @@ int TestFinder::nftwCallback(const char *fpath, const struct stat *, int tflag, 
         return 0;
     if (path.substr(tacka) != ".cpp") // && path.substr(tacka) != ".h"
         return 0;
+    std::cout << path << std::endl;
     ifstream f(path);
     if (!f.is_open())
         return -1;

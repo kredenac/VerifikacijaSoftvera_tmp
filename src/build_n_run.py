@@ -60,7 +60,7 @@ os.chdir(folder)
 #bash("pwd")
 
 projName = "string_distance_test"
-projPath = "../Root/" + projName + "/" + projName + ".pro"
+projPath = "../Root/Haming/" + projName + "/" + projName + ".pro"
 
 bash("qmake "+projPath)
 bash("make -B")

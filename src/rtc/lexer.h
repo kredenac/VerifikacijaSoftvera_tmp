@@ -17,7 +17,7 @@ namespace yy {
 class Lexer: public yyFlexLexer
 {
 public:
-    Lexer() {}
+    Lexer() : line_num(1) {}
     virtual ~Lexer() {}
     virtual yy::parser::symbol_type get_next_token();
 private:

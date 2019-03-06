@@ -24,7 +24,7 @@ id [a-zA-Z_][a-zA-Z_0-9]*
 <komentar>\n ++line_num;
 <komentar>"*"+"/" BEGIN(INITIAL);
 "class"|"struct" return yy::parser::make_CLASS();
-"#"[ \t]*"include"[ \t]*"<QtTest>"[ \t]*\r?\n { ++line_num; return yy::parser::make_INCLUDE_QT_TEST(); }
+"#"[ \t]*"include"[ \t]*"<Q"t?"Test>"[ \t]*\r?\n { ++line_num; return yy::parser::make_INCLUDE_QT_TEST(); }
 "#".*\n { ++line_num; return yy::parser::make_PREPROCESSOR(); }
 "public"|"protected" return yy::parser::make_MODIFIER();
 "private" return yy::parser::make_PRIVATE();

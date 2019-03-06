@@ -8,6 +8,7 @@
     {
         class Lexer;
     }
+    #define YYDEBUG 1
 }
 
 %code top {
@@ -31,7 +32,8 @@
 
 int last_id_line;
 int beginL;
-bool isQtTestFile = false, isQ_SLOTS = false;
+//bool isQtTestFile = false
+bool isQ_SLOTS = false;
 
 void yy::parser::error(const std::string &message)
 {
@@ -77,7 +79,7 @@ Naredba
   ;
 
 Pretprocesor
-  : INCLUDE_QT_TEST { isQtTestFile = true; }
+  : INCLUDE_QT_TEST //{ isQtTestFile = true; }
   | PREPROCESSOR
   ;
 
@@ -89,6 +91,7 @@ Skip
   : Id
   | TACKAZAPETA
   | ZAPETA
+  | DVOTACKA
   ;
 
 DefinicijaTipa
@@ -128,16 +131,16 @@ NizArgumenata
   ;
 
 Test
-  : VOID Id NizArgumenata TACKAZAPETA { if (isQtTestFile && isQ_SLOTS)
+  : VOID Id NizArgumenata TACKAZAPETA { if (/*isQtTestFile && */isQ_SLOTS)
                                             TestFinder::testFunctionNames[$2] = lexer.line_num; }
   | VOID Id NizArgumenata
-            { if (isQtTestFile && isQ_SLOTS)
+            { if (/*isQtTestFile && */isQ_SLOTS)
               {
-                if (TestFinder::testFunctionNames.find($2) == TestFinder::testFunctionNames.cend())
-                    TestFinder::testFunctionNames[$2] = lexer.line_num;
                 beginL = last_id_line;
+                if (TestFinder::testFunctionNames.find($2) == TestFinder::testFunctionNames.cend())
+                    TestFinder::testFunctionNames[$2] = beginL;
               }
-            } Blok { if (isQtTestFile && isQ_SLOTS)
+            } Blok { if (/*isQtTestFile && */isQ_SLOTS)
                         TestFinder::testovi.push_back(TestCase($2, path, TestFinder::testFunctionNames[$2], beginL, lexer.line_num)); }
   ;
 

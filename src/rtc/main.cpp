@@ -25,7 +25,7 @@ int main()
 {
     chdir("../");
     std::cout << "pwd=" << GetCurrentWorkingDir() << std::endl;
-    string path = "what_we_test/Root/string_distance_test";
+    string path = "what_we_test/Root/Haming/string_distance_test";
     auto testCaseFinder = TestFinder(path);
 
     auto tests = testCaseFinder.getTestCases();

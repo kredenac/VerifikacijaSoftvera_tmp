@@ -50,8 +50,9 @@
     {
         class Lexer;
     }
+    #define YYDEBUG 1
 
-#line 55 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.hpp" // lalr1.cc:403
+#line 56 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.hpp" // lalr1.cc:403
 
 
 # include <cstdlib> // std::abort
@@ -145,7 +146,7 @@
 
 
 namespace yy {
-#line 149 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.hpp" // lalr1.cc:403
+#line 150 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.hpp" // lalr1.cc:403
 
   /// A stack with random access from its top.
   template <typename T, typename S = std::vector<T> >
@@ -740,7 +741,7 @@ namespace yy {
   // number is the opposite.  If YYTABLE_NINF, syntax error.
   static const unsigned char yytable_[];
 
-  static const signed char yycheck_[];
+  static const unsigned char yycheck_[];
 
   // YYSTOS[STATE-NUM] -- The (internal number of the) accessing
   // symbol of state STATE-NUM.
@@ -862,7 +863,7 @@ namespace yy {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 68,     ///< Last index in yytable_.
+      yylast_ = 66,     ///< Last index in yytable_.
       yynnts_ = 19,  ///< Number of nonterminal symbols.
       yyfinal_ = 3, ///< Termination state number.
       yyterror_ = 1,
@@ -1192,7 +1193,7 @@ namespace yy {
 
 
 } // yy
-#line 1196 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.hpp" // lalr1.cc:403
+#line 1197 "/home/dimitrije/Documents/VS/redundant-test-cases/src/rtc/parser.hpp" // lalr1.cc:403
 
 
 
