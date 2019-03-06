@@ -1,0 +1,10 @@
+zanshin_auto_tests(
+  contexttest
+  datasourcetest
+  livequerytest
+  liverelationshipquerytest
+  mockitotest
+  projecttest
+  queryresulttest
+  tasktest
+)

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FilterWidget</class>
+ <widget class="QWidget" name="FilterWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLineEdit" name="filterEdit">
+       <property name="placeholderText">
+        <string>Filter...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="extensionButton">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset theme="arrow-down-double">
+         <normaloff>.</normaloff>.</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QWidget" name="extension" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QComboBox" name="sortTypeCombo"/>
+        </item>
+        <item>
+         <widget class="QToolButton" name="descendingButton">
+          <property name="toolTip">
+           <string>Sort in descending order</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset theme="arrow-down">
+            <normaloff>.</normaloff>.</iconset>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">sortOrderGroup</string>
+          </attribute>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="ascendingButton">
+          <property name="toolTip">
+           <string>Sort in ascending order</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset theme="arrow-up">
+            <normaloff>.</normaloff>.</iconset>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">sortOrderGroup</string>
+          </attribute>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>extensionButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>extension</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>381</x>
+     <y>82</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>375</x>
+     <y>165</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <buttongroups>
+  <buttongroup name="sortOrderGroup"/>
+ </buttongroups>
+</ui>

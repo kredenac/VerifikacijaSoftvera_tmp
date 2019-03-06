@@ -1,0 +1,18 @@
+zanshin_auto_tests(
+  applicationmodeltest
+  editormodeltest
+  availablepagesmodeltest
+  availablepagessortfilterproxymodeltest
+  availablesourcesmodeltest
+  errorhandlertest
+  errorhandlingmodelbasetest
+  inboxpagemodeltest
+  metatypestest
+  pagemodeltest
+  projectpagemodeltest
+  querytreemodeltest
+  runningtaskmodeltest
+  taskfilterproxymodeltest
+  contextpagemodeltest
+  workdaypagemodeltest
+)

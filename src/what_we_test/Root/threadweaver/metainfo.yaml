@@ -1,0 +1,21 @@
+maintainer: mirko
+description: High-level multithreading framework
+tier: 1
+type: functional
+platforms:
+    - name: Linux
+    - name: FreeBSD
+    - name: Windows
+    - name: MacOSX
+    - name: Android
+portingAid: false
+deprecated: false
+release: true
+libraries:
+ - qmake: ThreadWeaver
+   cmake: "KF5::ThreadWeaver"
+cmakename: KF5ThreadWeaver
+
+public_lib: true
+group: Frameworks
+subgroup: Tier 1
