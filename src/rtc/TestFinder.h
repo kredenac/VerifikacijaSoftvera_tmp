@@ -11,8 +11,6 @@
 
 using namespace std;
 
-
-// TODO by Nadezda and Spadijer
 class TestFinder
 {
 public:

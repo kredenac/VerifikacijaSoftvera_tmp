@@ -3,7 +3,6 @@
 #include "TestFinder.h"
 #include <iostream>
 
-// TODO by Nikola and Rastko
 // take in test cases and generate
 // gcov stats to decide if some
 // test should be removed

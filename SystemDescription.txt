@@ -12,10 +12,24 @@ checking if some older tests become redundant.
 (2) System Architecture Description (description of basic implementation modules):
 
 Main executable is written in c++. Its responsibility is to first parse project directory and find 
-all test cases. It also calls bash scripts to comment and uncomment tests.
+all test cases. 
 
-Python script is used to compile the project which is tested, run the generated executable, 
-call gcov to generate coverage, and finally parse it and return the result to main program.
+Leveraging the power of Flex (lexer) and Yacc (parser) the component for extracting all test 
+cases and their locations within files is robust to variatons in code formatting.
+Actions for logging detected test cases are called within the parser.
+Generated lexer/parser classes are constructed and used whilst recursively traversing directories 
+starting from the given path.
+
+Components for commenting and uncommenting tests are implemented as bash scripts because of their conciseness. 
+They are evoked through the main executable.
+
+Pythons easy and natural communication with other programs is used to do the following:
+Compiling the project which is tested, running the generated executable, executing gcov to generate coverage,
+and finally parsing gcovs coverage report and returning the result to main program.
+
+"Redundant test finder" component uses all previous elements as an orchestrator.
+By removing a test, analyzing coverage without it versus with it, it decides whether a given test is 
+reduntant with respect to the whole test corpus.
 
 (3) Solution Description (basic ideas, explanmation of key decisions, description of base algorithm)
 
@@ -54,4 +68,17 @@ main()
             test.isRedundant = true
     
     print tests.filter(isRedundant)
+
+
+Cons of described implementation:
+- Line coverage is a very shallow criterion for deciding the real contribution or redundancy of a given test case.
+- Recompiling for every test case doesn't scale well for large projects, especially if they have a lot of test cases.
+- Highly dependant on a testing framework and programming language.
+
+Pros of described implementation:
+- Its free!
+- Can be used with continious integration.
+- No false negatives: if it doesn't flag a certain test as reduntant, then it definitely isn't.
+- Intuitive interpretation of results.
+
 
