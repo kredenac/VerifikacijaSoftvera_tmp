@@ -57,9 +57,9 @@
 
 \begin{document}
 
-\title{Otkrivanje redudantnih test primera\\ \small{Seminarski rad u okviru kursa\\Verifikacija softvera\\ Matematički fakultet}}
+\title{Otkrivanje redudantnih test primera pomoću pokrivenosti koda\\ \small{Seminarski rad u okviru kursa\\Verifikacija softvera\\ Matematički fakultet}}
 
-\author{Rastko Đorđević, Nikola Dimitrijević, Dimitrije Špadijer, Nadežda Bogdanović\\ kontakt email prvog, drugog, trećeg, četvrtog autora}
+\author{Rastko Đorđević, Nikola Dimitrijević, Dimitrije Špadijer, Nadežda Bogdanović\\ kontakt email prvog, drugog, trećeg, nadezdabodanovic1@gmail.com}
 
 %\date{9.~april 2015.}
 
@@ -73,12 +73,54 @@ Veliki problem, naročito kod softvera otvorenog koda i regresionog testiranja, 
 
 \newpage
 
-\section{Osnovna ideja}
-\label{sec:osnovnaideja}
+\section{Opis problema}
+\label{sec:opis_problema}
 
-Oslanjajući se na alat gcov za merenje pokrivenosti koda, projekat koji smo odabrali kao prezentujući, pokrećemo najpre sa njegovim test primerima i merimo pokrivenost linija. Zatim uklanjamo jedan po jedan test primer, tako što ga jednostavno zakomentarišemo i merimo pokrivenost bez njega i ako ona ostaje nepromenjena, onda taj test primer označavamo kao redudantan.
+Kod velikih projekata, primećuje se nagomilavanje test-primera, u čijem se međusobnom odnosu često primećuje visoka stopa redudantnosti. Međusobna redudantnost dva test-primera ukazuje na to da se svaka greška, koja se može naći jednim test-primerom, može naći i sa drugim i obrnuto.
+Ovakva pojava ima ogromnog uticaja na efikasnost, vremnsku i prostornu, kao i na troškove samog testiranja.
+
+Kako zbog politike vođenja samog projekta postoji velika sloboda dodavanja, a mala, ili gotovo nikakva provera prilikom dodavanja novih test-primera, ova pojava se posebno zapaža kod softvera otvorenog koda.
+
+Ovakvome je softveru, zbog svoje prirode, potrebno dosta vremena kako bi stigao do završne faze svog razvojnog ciklusa, tako da je potrebno koliko god je moguće smanjiti trajanje svake od faza, a samim tim i testiranje.
+
+\section{Opis rešenja}
+\label{sec:opis_resenja}
+
+Oslanjajući se na alat \textit{gcov} za merenje pokrivenosti koda, projekat koji smo odabrali kao prezentujući, pokrećemo najpre sa njegovim test primerima i merimo pokrivenost linija. Zatim uklanjamo jedan po jedan test primer, tako što ga jednostavno zakomentarišemo i merimo pokrivenost bez njega i ako ona ostaje nepromenjena, onda taj test primer označavamo kao redudantan.
+
+Kao kriterijum pokrivenosti koristimo pokrivenost linija koda, zbog svoje intuitivne i prirodne interpretacije. Alat \textit{gcov} koristimo zato što je deo GNU ekosistema i kompatibilan je sa njegovim \textit{gcc} kompajlerom.
 
 Da bismo mogli da uklonimo test primer iz skupa test primera, moramo najpre da ga pronađemo. Za te potrebe smo razvili parser i konteksno slbododnu gramatiku, koja je prilagodljiva različitim načinima generisanja test primera u okviru QT framework-a.
+
+Odabrali smo testove generisane u okviru QT framework-a zbog njegove iskoristivosti na različitim platformama, a i zato što su naši članovi tima već upoznati za rad na takvoj platformi i njeno korišćenje im je udobno.
+
+\subsection{Pseudokod osnovne ideje}
+\label{subsec:pseudokod}
+\begin{lstlisting}
+getCoverage()
+    compile project
+    run tests
+    generate coverage
+    parse it and return metric
+    
+main()
+    tests = {}
+    
+    for file in directory
+        for test in file
+            tests.add(test)
+            
+    baseline = getCoverage()
+    
+    for test in tests
+        coverage = getCoverage()
+        if coverage < baseline
+            test.isRedudant = false
+        else
+            test.isRedudant = true
+            
+    print tests.filter(isRedudant)
+\end{lstlisting}
 
 \section{Opis arhitekture sistema}
 \label{sec:arhitektura}
@@ -103,19 +145,21 @@ Osnovne komponente našeg rešenja objedinjene su u glavnom c++ fajlu, koji njim
 \end{itemize}
 
 \section{Pokretanje, rezultati i njihova procena}
-\label{sec:rezultati}
+\label{sec:pokretanje_rezultati_procena}
 
-\section{Mane i prednosti pristupa}
-\label{sec:mane}
+\subsection{Pokretanje i rezultati}
+\label{subsec:pokretanje_rezultati}
 
-\textbf{Prednosti:}
+\subsection{Prednosti:}
+\label{subsec:prednosti}
 \begin{itemize}
     \item Korišćenje je potpuno besplatno
     \item Pristup i tumačenje rezultata su intuitivni
     \item Nema lažno-negativnih (~eng. \textit{false negative}) rezultata: Ako neki test-primer nije označen kao negativan, onda to svakako nije
 \end{itemize}
 
-\textbf{Mane:}
+\subsection{Mane:}
+\label{subsec:mane}
 \begin{itemize}
     \item Mnogo lažno-pozitivnih rezultata: Ako je neki test-primer označen kao redudantan, ne znači nužno da to i jeste. Ovakav problem se javlja zato što se kao kriterijum pokrivenosti koristi pokrivenost linija.
     \item Nizak nivo skalabilnosti: Minimalan skup-test primera (onaj koji ne sadrži redudantnosti) se računa iznova i iznova za svako pokretanje. Ovo je posebno neefikasno za velike projekte.
@@ -126,9 +170,9 @@ Osnovne komponente našeg rešenja objedinjene su u glavnom c++ fajlu, koji njim
 \section{Alternativna rešenja}
 \label{sec:alternative}
 
-U literaturi koja se dotiče ovog problema nailazimo na nekoliko rešenja, čija će ideja biti opisana u daljem tekstu.
+Kao što je već pomenuto, rešenje koje smo odabrali, iako intuitivno, ima određene mane. One se mogu prevazići korišćenjem nekoliko različitih pristupa, od kojih smo mi odabrali dva najinteresantnija i prikazali ih u sekcijama koje slede.
 
-\subsection{Prvi način}
+\subsection{Otkrivanje redudantnih test-primera generisanih rešavačem modela primenom pokrivenosti koda}
 \label{subsec:prvi}
 
 Ovaj pristup\cite{prvinacin} podrazumeva da redudantnost znači da nema grešaka koje se mogu detektovati određenim test-primerom, a ne bez njega. Umesto da se redudantni testovi odbace, oni se transformišu tako da se redudantnost izbegne. Ovakav pristup nas oslobađa lažnih rezultata, a da pritom ne gubimo na pokrivenosti koda. Za generisanje, kao i za optimizaciju test primera koristi se proveravač modela (eng.~{\em model-checker}).
@@ -213,7 +257,7 @@ $ R = \frac{1}{7-1} \cdot (0 + (1+0)) = \frac{1}{6} = 17\% $.
 
 Transformisanje test-primera iskače van domena ovog rada, pa ovde neće biti obrađeno, ali se detaljno objašnjenje može naći u literaturi\cite{prvinacin}.
 
-\subsection{Drugi načiin}
+\subsection{Otkrivanje redudantnosti test-primera analizom pokrivenosti koda}
 \label{subsec:drugi}
 
 Ovaj pristup\cite{druginacin} podrazumeva sledeće korake:
@@ -268,7 +312,13 @@ Ovaj pristup\cite{druginacin} podrazumeva sledeće korake:
     Zaključno, primenom ovog postupka dobili smo minimalni skup test-primera koji nam je za sada potreban $TS_{min} = \{t_1, t_2\}$ i rezervni skup test-primera $TS_{sec} = \{t_3\}$ koji po potrebi može da nadopunjuje primarni skup.
 \end{enumerate}
 
+\section{Zaključak}
+\label{sec:zakljucak}
+Potpuno izbegavanje redudantnih test-primera je u velikim projektima jako teško i zbog toga se najčešće pribegava različitim tehnikama njihovog detektotavanja, a zatim i otklanjanja, ili transformisanja.
 
+Postoji nekoliko načina koji obezbeđuju rešenje ovog problema. Pokazalo se u praksi da je jedan od najboljih ostvariv uz pomoć analize pokrivenosti koda. Te analize se mogu upotrebljavati na različite načine: korišćenje heuristika, statistika, rešavača modela, tabela pokrivenosti...
+
+Ovakva rešenja su skalabilna i primenljiva i na druge skupove, a ne samo na skupove test-primera, te svoju primenu mogu naći i u biotehnologijama, statistici, i ostalim naučnim granama. Zbog toga se očekuje napredak istraživanja u ovoj oblasti paralelno sa napretkom gorepomenutih grana.
 
 \addcontentsline{toc}{section}{Literatura}
 \appendix
