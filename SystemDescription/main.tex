@@ -74,7 +74,9 @@ Dimitrije Špadijer, Nadežda Bogdanović\\
 \maketitle
 
 \abstract{
-Veliki problem, naročito kod softvera otvorenog koda i regresionog testiranja, predstavlja gomilanje redundantnih test primera i način njihovog otkrivanja. Naša definicija redundantnog test primera podrazumeva test primer, čijim  uklanjanjem iz skupa test primera pokrivenost linija koda ostaje neizmenjena. Pokrivenost koda merili smo alatom \textit{gcov} i fokusirali smo se na test primere za QT framework. Cilj rada je da pojasni naš način implementacije otkrivanja redundantnih test primera. Rad ne sadrži formalne dokaze na kojima korektnost određenih postupka počiva, te se za te potrebe može koristiti predložena literatura.
+Veliki problem, naročito kod softvera otvorenog koda i regresionog testiranja, predstavlja gomilanje redundantnih test primera i način njihovog otkrivanja. 
+Naša definicija redundantnog test primera podrazumeva test primer čijim  uklanjanjem iz skupa test primera pokrivenost linija koda ostaje neizmenjena. 
+Pokrivenost koda merili smo alatom \textit{gcov} i fokusirali smo se na test primere za QT framework. Cilj rada je da opiše našu implementaciju otkrivanja redundantnih test primera.
 }
 
 \tableofcontents
@@ -155,12 +157,34 @@ Osnovne komponente našeg rešenja objedinjene su u glavnom C++ fajlu, koji njim
 \section{Pokretanje, rezultati i njihova procena}
 \label{sec:pokretanje_rezultati_procena}
 
-Program se pokreće iz terminala. Program ispisuje lokaciju projekta za čije se testove proverava redundantnost i osnovnu pokrivenost koda. Ako utvrdi da je neki test redundantan, ispisuje se ime testa i pokrivenost koda bez tog testa.
+Program se pokreće iz terminala. Program ispisuje lokaciju projekta za čije se testove proverava redundantnost i osnovnu pokrivenost koda.
+Ako utvrdi da je neki test redundantan, ispisuje se ime testa i pokrivenost koda bez tog testa.
 
 \subsection{Pokretanje i rezultati}
 \label{subsec:pokretanje_rezultati}
 
-Prilikom pokretanja programa za projekat Haming, koji računa rastojanje između dve niske, dobijena je osnovna pokrivenost 0.725. Od šest pronađenih testova, čak pet je redundantno, i pokrivenost bez njih je ostala 0.725.
+Prilikom pokretanja programa za projekat Haming, koji računa rastojanje između dve niske, dobijena je osnovna pokrivenost 0.725. 
+Program je pronašao svih šest testova, od njih je pet redundantno. 
+U tabeli \ref{tab:tabela} su prikazani rezultati.
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{llll}
+        & Stvarno redundantani & Stvarno neredundantani &   \\
+        Predviđeno redundantni  & 0 & 5 &   \\
+        Predviđeno neredundantni & 0 & 1 &   \\
+        &   &   &  
+    \end{tabular}
+    \caption{Matrica konfuzije redundantnosti testova}
+    \label{tab:tabela}
+\end{table}
+
+U testiranom projektu nijedan test nije redundantan, ali je njih 83\% klasifikovano kao redundantno.
+Razlog za to je što ostali testovi zajedno pokrivaju linije koda koji pokriva i jedan test koji se razmatra.
+Njegovim izbacivanjem i dalje su pokrivene te linije i program zaključuje da je on redundantan, iako svaki od tih 
+testova unosi dodatnu moć otkrivanja grešaka pošto prolaze različitim putanjama kroz kod.
+
+
 
 \subsection{Prednosti}
 \label{subsec:prednosti}
@@ -182,7 +206,7 @@ Prilikom pokretanja programa za projekat Haming, koji računa rastojanje između
 \section{Alternativna rešenja}
 \label{sec:alternative}
 
-Kao što je već pomenuto, rešenje koje smo odabrali, iako intuitivno, ima određene mane. One se mogu prevazići korišćenjem nekoliko različitih pristupa, od kojih smo mi odabrali dva najinteresantnija i prikazali ih u sekcijama koje slede.
+Kao što je već pomenuto, rešenje koje smo odabrali, iako intuitivno, ima dosta mana. One se mogu prevazići korišćenjem nekoliko različitih pristupa, od kojih smo mi odabrali dva najinteresantnija i prikazali ih u sekcijama koje slede.
 
 \subsection{Otkrivanje redundantnih test-primera generisanih rešavačem modela primenom pokrivenosti koda}
 \label{subsec:prvi}
@@ -220,7 +244,7 @@ Da bismo utvrdili da li su testovi redundantni, moramo najpre znati kako se izvr
 
 \begin{definition}{Izvršavanje test-primera:}
 Test-primer $t$ za Kripke strukturu $K$ se izvršava uzimanjem ulaznih varijabli svakog stanja, prosleđujući ih SUT-u sa odgovarajućim test-okvirom. Ove vrednosti i dobijene izlazne vrednosti predstavljaju putanju izvršavanja $ tr = \{s_{i}^{'}, s_{i+1}^{'}, ...\} $. Greška je detektovana akko $ \exists (s_{i}^{'}, s_{i+1}^{'}) \in tr : (s_{i}^{'}, s_{i+1}^{'}) \notin T za K $, gde se $ (s_{i}^{'}, s_{i+1}^{'})$ smatra za korak.
-\end{definition}.
+\end{definition}
 
 \subsubsection{Redundantnost u skupu testova}
 \label{subsubsec:redundantnost}
@@ -229,9 +253,10 @@ Intuitivno, redundantni test-primeri su identični. Za svaka dva test-primera $t
 
 Do sličnog zapažanja se dolazi i u slučajevima kada je $t_1$ prefiks test-primera $t_1$, tako da se svaka greška koja se može detektovati sa $t_1$, može detektovati i sa $t_2$, ali ne i obrnuto. U ovom slučaju je $t_1$ redundantan i nije neophodan u onom skupu testova koji sadrži $t_2$.
 
-Sve ovo prethodno dovelo nas je do redundantnosti za koju smo mi zainteresovani: Skup testova generisan pomoću rešavača modela je najčešće takav da svi test-primeri počinju istim inicijalnim stanjem. Počev od ovog stanja, može se prolaziti različitim putanjama, ali je mnogo putanja jednako nekom određenom stanju. Svaka greška koja se desi prilikom izvršavanja neke od ovih podputanji može biti detektovana bilo kojim test-primerom koji počinje ovom podputanjom. U sklopu ovih test-primera, podputanja je \textbf{redundantna}.
+Sve ovo prethodno dovelo nas je do redundantnosti za koju smo mi zainteresovani: Skup testova generisan pomoću rešavača modela je najčešće takav da svi test-primeri počinju istim inicijalnim stanjem. Počev od ovog stanja, može se prolaziti različitim putanjama, ali je mnogo putanja jednako nekom određenom stanju. 
+Svaka greška koja se desi prilikom izvršavanja neke od ovih potputanji može biti detektovana bilo kojim test-primerom koji počinje ovom potputanjom. U sklopu ovih test-primera, potputanja je \textbf{redundantna}.
 
-Ovakav pogled na redundantnost nam omogućava da skup test-primera predstavimo pomoću drveta, gde je inicijalno stanje, deljeno od strane svih test-primera koren drveta. Podputanja je redundantna ako se javlja u sklopu dva ili više test-primera. To znači da svaki čvor, osim inicijalnog, koji ima više od jedog deteta, sadrži redundantnost. Ako ima više različitih inicijalnih stanja, onda za svako od tih inicijalnih stanja postostoji po jedno drvo.
+Ovakav pogled na redundantnost nam omogućava da skup test-primera predstavimo pomoću drveta, gde je inicijalno stanje, deljeno od strane svih test-primera koren drveta. Potputanja je redundantna ako se javlja u sklopu dva ili više test-primera. To znači da svaki čvor, osim inicijalnog, koji ima više od jedog deteta, sadrži redundantnost. Ako ima više različitih inicijalnih stanja, onda za svako od tih inicijalnih stanja postostoji po jedno drvo.
 
 Dubina drveta jednaka je dužini najdužeg test-primera. Drvo izvršavanja se može koristiti za merenje redundantnosti.
 
