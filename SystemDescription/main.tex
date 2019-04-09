@@ -19,7 +19,7 @@
 \usepackage{amsmath}
 
 %\theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
+\newtheorem{definition}{Definicija}[section]
 
 %\newtheorem{primer}{Пример}[section] %ćirilični primer
 %\newtheorem{primer}{Primer}[section]
@@ -62,9 +62,12 @@
 
 \begin{document}
 
-\title{Otkrivanje redundantnih test primera pomoću pokrivenosti koda\\ \small{Seminarski rad u okviru kursa\\Verifikacija softvera\\ Matematički fakultet}}
+\title{Otkrivanje redundantnih test primera pomoću pokrivenosti koda\\ \small{Seminarski rad u okviru kursa Verifikacija softvera\\ Matematički fakultet}}
 
-\author{Rastko Đorđević, Nikola Dimitrijević, Dimitrije Špadijer, Nadežda Bogdanović\\ kontakt email prvog, drugog, trećeg, nadezdabodanovic1@gmail.com}
+\author{Rastko Đorđević, Nikola Dimitrijević,\\
+Dimitrije Špadijer, Nadežda Bogdanović\\
+\href{mailto:mi14078@alas.matf.bg.ac.rs}{mi14078@alas.matf.bg.ac.rs}, \href{mailto:nikoladim95@gmail.com}{nikoladim95@gmail.com},\\ \href{mailto:mm11021@alas.matf.bg.ac.rs}{mm11021@alas.matf.bg.ac.rs}, 
+\href{mailto:nadezdabodanovic1@gmail.com}{nadezdabogdanovic1@gmail.com}}
 
 %\date{9.~april 2015.}
 
@@ -82,7 +85,7 @@ Veliki problem, naročito kod softvera otvorenog koda i regresionog testiranja, 
 \label{sec:opis_problema}
 
 Kod velikih projekata, primećuje se nagomilavanje test-primera, u čijem se međusobnom odnosu često primećuje visoka stopa redundantnosti. Međusobna redundantnost dva test-primera ukazuje na to da se svaka greška, koja se može naći jednim test-primerom, može naći i sa drugim i obrnuto.
-Ovakva pojava ima ogromnog uticaja na efikasnost, vremnsku i prostornu, kao i na troškove samog testiranja.
+Ovakva pojava ima ogromnog uticaja na efikasnost, vremensku i prostornu, kao i na troškove samog testiranja.
 
 Kako zbog politike vođenja samog projekta postoji velika sloboda dodavanja, a mala, ili gotovo nikakva provera prilikom dodavanja novih test-primera, ova pojava se posebno zapaža kod softvera otvorenog koda.
 
@@ -95,7 +98,7 @@ Oslanjajući se na alat \textit{gcov} za merenje pokrivenosti koda, projekat koj
 
 Kao kriterijum pokrivenosti koristimo pokrivenost linija koda, zbog svoje intuitivne i prirodne interpretacije. Alat \textit{gcov} koristimo zato što je deo GNU ekosistema i kompatibilan je sa njegovim \textit{gcc} kompajlerom.
 
-Da bismo mogli da uklonimo test primer iz skupa test primera, moramo najpre da ga pronađemo. Za te potrebe smo razvili parser i konteksno slbododnu gramatiku, koja je prilagodljiva različitim načinima generisanja test primera u okviru QT framework-a.
+Da bismo mogli da uklonimo test primer iz skupa test primera, moramo najpre da ga pronađemo. Za te potrebe smo razvili parser i konteksno slobodnu gramatiku, koja je prilagodljiva različitim načinima generisanja test primera u okviru QT framework-a.
 
 Odabrali smo testove generisane u okviru QT framework-a zbog njegove iskoristivosti na različitim platformama, a i zato što su naši članovi tima već upoznati za rad na takvoj platformi i njeno korišćenje im je udobno.
 
@@ -130,10 +133,10 @@ main()
 \section{Opis arhitekture sistema}
 \label{sec:arhitektura}
 
-Osnovne komponente našeg rešenja objedinjene su u glavnom c++ fajlu, koji njima upravlja:
+Osnovne komponente našeg rešenja objedinjene su u glavnom C++ fajlu, koji njima upravlja:
 \begin{itemize}
     \item Komponenta za pronalaženje svih test-primera i njihovih lokacija:\\
-            Svrha ovog modula je da pronađe sve test-primere u projektu i njihove lokacije, kako bi se mogli zakomentarisati, a počiva na integraciji C++ sa \textit{Flex-om} (leksički analizator) i \textit{Yacc-om (parser)}. Ovo je moguće zato što QT testovi moraju da se definišu na određeni način, tj. koriste određene ključne reči. Testove se traže rekurzivnom obilaskom direktorijuma u kojem se nalazi projekat koji se testira.
+            Svrha ovog modula je da pronađe sve test-primere u projektu i njihove lokacije, kako bi se mogli zakomentarisati, a počiva na integraciji C++ sa \textit{Flex-om} (leksički analizator) i \textit{Yacc-om} (parser). Ovo je moguće zato što QT testovi moraju da se definišu na određeni način, tj. koriste određene ključne reči. Testove se traže rekurzivnim obilaskom direktorijuma u kojem se nalazi projekat koji se testira.
     \item Komponenta za komentarisanje i dekomentarisanje:\\
             Implementirana je kao bash skripta, zbog svoje konciznosti
     \item Komponenta za komunikaciju:\\
@@ -152,10 +155,14 @@ Osnovne komponente našeg rešenja objedinjene su u glavnom c++ fajlu, koji njim
 \section{Pokretanje, rezultati i njihova procena}
 \label{sec:pokretanje_rezultati_procena}
 
+Program se pokreće iz terminala. Program ispisuje lokaciju projekta za čije se testove proverava redundantnost i osnovnu pokrivenost koda. Ako utvrdi da je neki test redundantan, ispisuje se ime testa i pokrivenost koda bez tog testa.
+
 \subsection{Pokretanje i rezultati}
 \label{subsec:pokretanje_rezultati}
 
-\subsection{Prednosti:}
+Prilikom pokretanja programa za projekat Haming, koji računa rastojanje između dve niske, dobijena je osnovna pokrivenost 0.725. Od šest pronađenih testova, čak pet je redundantno, i pokrivenost bez njih je ostala 0.725.
+
+\subsection{Prednosti}
 \label{subsec:prednosti}
 \begin{itemize}
     \item Korišćenje je potpuno besplatno
@@ -163,7 +170,7 @@ Osnovne komponente našeg rešenja objedinjene su u glavnom c++ fajlu, koji njim
     \item Nema lažno-negativnih (~eng. \textit{false negative}) rezultata: Ako neki test-primer nije označen kao negativan, onda to svakako nije
 \end{itemize}
 
-\subsection{Mane:}
+\subsection{Mane}
 \label{subsec:mane}
 \begin{itemize}
     \item Mnogo lažno-pozitivnih (~eng. \textit{false positive}) rezultata: Ako je neki test-primer označen kao redundantan, ne znači nužno da to i jeste. Ovakav problem se javlja zato što se kao kriterijum pokrivenosti koristi pokrivenost linija.
