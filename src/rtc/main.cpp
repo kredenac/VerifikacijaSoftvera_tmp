@@ -21,16 +21,27 @@ string GetCurrentWorkingDir( void ) {
   return current_working_dir;
 }
 
-int main()
+int main(int argc, char **argv)
 {
+    string pathToProject;
+    string executableName;
+    if (argc!=3){
+        std::cout << "Example of use:\n./program path_to_test_pro test_executable_name" << std::endl;
+        pathToProject = "/home/nikola/Desktop/redundant-test-cases/src/what_we_test/Root/Haming/string_distance_test/string_distance_test.pro";
+        executableName = "tst_string_distance_test";
+    } else {
+        pathToProject = argv[1];
+        executableName = argv[2];
+    }
+
     chdir("../");
     std::cout << "pwd=" << GetCurrentWorkingDir() << std::endl;
-    string path = "what_we_test/Root/Haming/string_distance_test";
+    string path = pathToProject.substr(0, pathToProject.find_last_of('/') );
     auto testCaseFinder = TestFinder(path);
 
     auto tests = testCaseFinder.getTestCases();
     cout << "test.size = " << tests.size() << endl;
-    auto redundantTestCaseChecker = RedundantFinder(tests);
+    auto redundantTestCaseChecker = RedundantFinder(tests, pathToProject, executableName);
 
     if (redundantTestCaseChecker.hasRedundant()){
         auto redundantTests = redundantTestCaseChecker.getRedundant();
@@ -38,8 +49,7 @@ int main()
         for (auto test : redundantTests){
             cout << test.functionName << endl;
         }
-    }
-    else {
+    } else {
         cout << "no redundant tests" << endl;
     }
 

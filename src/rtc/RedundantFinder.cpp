@@ -25,7 +25,8 @@ string GetStdoutFromCommand(string cmd)
     return data;
 }
 
-RedundantFinder::RedundantFinder(vector<TestCase> & tests) : tests(tests)
+RedundantFinder::RedundantFinder(vector<TestCase> & tests, string pathToProject, string executableName) : tests(tests),
+    pathToProject(pathToProject), executableName(executableName)
 {
     checkTests();
 }
@@ -47,11 +48,12 @@ bool RedundantFinder::hasRedundant()
 double RedundantFinder::getGcovLineCoverage()
 {
     // build, run program, then get gcov line coverage
-    string command = "python build_n_run.py";
+    string command = "python build_n_run.py " + pathToProject + " " + executableName;
     string result = GetStdoutFromCommand(command);
 
     if (result.find("error") != string::npos){
         cout << "error while calling python script" << endl;
+        cout << "Error:" + result << endl;
     }
     double cov = atof(result.c_str());
 

@@ -9,7 +9,7 @@
 class RedundantFinder
 {
 public:
-    RedundantFinder(vector<TestCase> & tests);
+    RedundantFinder(vector<TestCase> & tests, string pathToProject, string executableName);
 
     bool hasRedundant();
 
@@ -20,6 +20,8 @@ private:
     void checkTests();
     void checkIsRedundant(TestCase &t, double baseline);
     vector<TestCase> tests;
+    string pathToProject;
+    string executableName;
 };
 
 #endif // REDUNDANT_FINDER_H

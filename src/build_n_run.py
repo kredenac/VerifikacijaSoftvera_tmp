@@ -1,6 +1,7 @@
 import subprocess
 import os
 import re
+import sys
 
 def bash(command):
     arr = command.split()
@@ -41,6 +42,15 @@ def coverage_percent(gcov_out):
 
     return lines_covered/all_lines
 
+pathToProj = ""
+executableName = ""
+
+if len(sys.argv) == 3:
+    pathToProj = sys.argv[1]
+    executableName = sys.argv[2]
+else:
+    exit("Error, need pathToProject and executableName")
+
 folder = "what_we_test"
 os.chdir(folder)
 
@@ -59,13 +69,9 @@ except OSError as e:
 os.chdir(folder)
 #bash("pwd")
 
-projName = "string_distance_test"
-projPath = "../Root/Haming/" + projName + "/" + projName + ".pro"
-
-bash("qmake "+projPath)
+bash("qmake "+pathToProj)
 bash("make -B")
-fileName = "tst_"+projName 
-bash("./"+fileName)
+bash("./"+executableName)
 #gcov_out = bash("gcov "+fileName+".cpp")
 
 gcov_out = bash("gcov string_distance.cpp")
