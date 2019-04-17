@@ -38,6 +38,7 @@ Find all test cases and turn them off one by one. Check if coverage is still the
 without them, if it is then it doesn't contribute to our coverage metric, and therefore is redundant.
 
 We have decided to use line coverage as the main metric for its straightforward interpretation and usage.
+Additionaly we use gcovs branches hit percentage and branches taken percentage report.
 When implementing a solution to this problem it had to be decided on which testing framework to focus on.
 Decision to use Qt Test was made because it is cross platform and our team members are comfortable 
 with it. Decision to use gcov as coverage tool was made because it is a part of GNU ecosystem and 
@@ -61,8 +62,8 @@ main()
     baseline = getCoverage()
 
     for test in tests
-        coverage = getCoverage()
-        if coverage < baseline
+        coverageMetric = getCoverage()
+        if coverageMetric < baseline
             test.isRedundant = false
         else
             test.isRedundant = true
@@ -71,7 +72,7 @@ main()
 
 
 Cons of described implementation:
-- Line coverage is a very shallow criterion for deciding the real contribution or redundancy of a given test case.
+- Line coverage with percentage of branches hit and percentage of branches taken is a shallow criterion for deciding the real contribution or redundancy of a given test case.
 - Recompiling for every test case doesn't scale well for large projects, especially if they have a lot of test cases.
 - Highly dependant on a testing framework and programming language.
 
@@ -80,5 +81,3 @@ Pros of described implementation:
 - Can be used with continious integration.
 - No false negatives: if it doesn't flag a certain test as reduntant, then it definitely isn't.
 - Intuitive interpretation of results.
-
-
