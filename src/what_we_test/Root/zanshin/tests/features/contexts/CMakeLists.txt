@@ -1,9 +1,0 @@
-zanshin_feature_tests(
-    contextaddfeature
-    contexteditfeature
-    contextdraganddropfeature
-    contextremovefeature
-    contexttaskremovefeature
-    contextdisplayfeature
-    contexttaskaddfeature
-)

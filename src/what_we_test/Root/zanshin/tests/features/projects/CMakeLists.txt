@@ -1,9 +1,0 @@
-zanshin_feature_tests(
-    projectdisplayfeature
-    projectaddfeature
-    projectdraganddropfeature
-    projecteditfeature
-    projecttaskpromotefeature
-    projecttaskaddfeature
-    projectremovefeature
-)
