@@ -9,19 +9,20 @@
 class RedundantFinder
 {
 public:
-    RedundantFinder(vector<TestCase> & tests, string pathToProject, string executableName);
+    RedundantFinder(vector<TestCase> & tests, string pathToProject, string executableName, string pathToSource);
 
     bool hasRedundant();
 
     vector<TestCase> getRedundant();
 
 private:
-    double getGcovLineCoverage();
+    void getGcovLineCoverage(double &cov1, double &cov2, double &cov3);
     void checkTests();
-    void checkIsRedundant(TestCase &t, double baseline);
+    void checkIsRedundant(TestCase &t, double baseline1, double baseline2, double baseline3);
     vector<TestCase> tests;
     string pathToProject;
     string executableName;
+    string pathToSource;
 };
 
 #endif // REDUNDANT_FINDER_H

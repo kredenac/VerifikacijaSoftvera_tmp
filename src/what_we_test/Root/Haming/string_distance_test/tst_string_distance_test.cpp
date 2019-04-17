@@ -17,6 +17,7 @@ private Q_SLOTS:
     void testLevenshtein1();
     void testLevenshtein2();
     void testLevenshtein3();
+    void testHamming4ShouldBeRedundant();
 };
 
 String_distance_Test::String_distance_Test()
@@ -33,12 +34,15 @@ void String_distance_Test::testHamming2()
     QCOMPARE(hamming_distance("prva", "prvo"), 1);
 }
 
-
 void String_distance_Test::testHamming3()
 {
     QCOMPARE(hamming_distance("nazovi", "nesto"), -1);
 }
 
+void String_distance_Test::testHamming4ShouldBeRedundant()
+{
+    QCOMPARE(hamming_distance("prvo", "prvo"), 0);
+}
 
 void String_distance_Test::testLevenshtein1()
 {
@@ -50,12 +54,10 @@ void String_distance_Test::testLevenshtein2()
     QCOMPARE(levenshtein_distance("prva", "prvo",4,4), 1);
 }
 
-
 void String_distance_Test::testLevenshtein3()
 {
     QCOMPARE(levenshtein_distance("prvo", "drugo",4,5), 3);
 }
-
 
 QTEST_APPLESS_MAIN(String_distance_Test)
 
