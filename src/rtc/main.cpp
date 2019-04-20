@@ -1,6 +1,8 @@
 #include <iostream>
 #include "TestFinder.h"
 #include "RedundantFinder.h"
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include <stdio.h>  /* defines FILENAME_MAX */
 // #define WINDOWS  /* uncomment this line to use it for windows.*/
@@ -21,6 +23,16 @@ string GetCurrentWorkingDir( void ) {
   return current_working_dir;
 }
 
+int ifPathExists(const char *path){
+
+    struct stat fInfo;
+
+    if(stat(path, &fInfo) != 0){
+        return 0;
+    }
+    return 1;
+}
+
 int main(int argc, char **argv)
 {
     string pathToProject;
@@ -38,6 +50,10 @@ int main(int argc, char **argv)
         pathToProject = argv[1];
         executableName = argv[2];
         pathToSource = argv[3];
+    }
+
+    if(!ifPathExists(pathToProject.c_str()) || !ifPathExists(executableName.c_str()) || !ifPathExists(pathToSource.c_str())){
+        cout << "Irregular arguments!" << endl;
     }
 
     //std::cout << "pwd=" << GetCurrentWorkingDir() << std::endl;
