@@ -28,7 +28,7 @@ int main(int argc, char **argv)
     string pathToSource;
     chdir("../");
     string cwd = GetCurrentWorkingDir();
-    if (argc!=3){
+    if (argc!=4){
         std::cout << "Example of use:\n./program path_to_test_pro test_executable_name path_to_source" << std::endl;
         pathToProject = cwd + "/what_we_test/Root/Haming/string_distance_test/string_distance_test.pro";
         executableName = "tst_string_distance_test";
