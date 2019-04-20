@@ -41,7 +41,9 @@ int main(int argc, char **argv)
     chdir("../");
     string cwd = GetCurrentWorkingDir();
     if (argc!=4){
+        std::cout << "Got " << (argc-1) << " params, expected 3." << std::endl;
         std::cout << "Example of use:\n./program path_to_test_pro test_executable_name path_to_source" << std::endl;
+        std::cout << "Starting with default project path parameters." << std::endl;
         pathToProject = cwd + "/what_we_test/Root/Haming/string_distance_test/string_distance_test.pro";
         executableName = "tst_string_distance_test";
         pathToSource = cwd + "/what_we_test/Root/Haming/String_distance";
@@ -52,8 +54,16 @@ int main(int argc, char **argv)
         pathToSource = argv[3];
     }
 
-    if(!ifPathExists(pathToProject.c_str()) || !ifPathExists(executableName.c_str()) || !ifPathExists(pathToSource.c_str())){
+    auto projPathExists = ifPathExists(pathToProject.c_str());
+    auto pathToSourceExists = ifPathExists(pathToSource.c_str());
+    if(!projPathExists || !pathToSourceExists){
         cout << "Irregular arguments!" << endl;
+        if (!projPathExists){
+            std::cout << "Project path '" << pathToProject << "' doesn't exist." << std::endl;
+        }
+        if (!pathToSourceExists){
+            std::cout << "Source path '" << pathToSource << "' doesn't exist." << std::endl;
+        }
         exit(1);
     }
 
