@@ -54,6 +54,7 @@ int main(int argc, char **argv)
 
     if(!ifPathExists(pathToProject.c_str()) || !ifPathExists(executableName.c_str()) || !ifPathExists(pathToSource.c_str())){
         cout << "Irregular arguments!" << endl;
+        exit(1);
     }
 
     //std::cout << "pwd=" << GetCurrentWorkingDir() << std::endl;
